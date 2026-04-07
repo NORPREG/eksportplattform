@@ -2,7 +2,7 @@ from pathlib import Path
 from module.Dataclasses.config_dataclass import ConfigDataclass
 import tomllib
 
-CONFIG_PATH = "D:/Brokers/eksportplattform_aria/config/config.toml"
+CONFIG_PATH = "D:/Config/eksportplattform.toml"
 
 def get_config_object(path):
     config_obj_str = open(path, "rb")#.read()
@@ -36,6 +36,10 @@ class Config(metaclass=Singleton):
     @property
     def log_db(self):
         return self.config_object.log_db
+
+    @property
+    def logger(self):
+        return self.config_object.logger
 
     @property
     def krest(self):

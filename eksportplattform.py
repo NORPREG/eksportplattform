@@ -6,7 +6,7 @@ import logging
 from datetime import datetime
 from pprint import pprint
 
-from config import Config
+from module.config import Config
 
 config = Config()
 
@@ -25,7 +25,7 @@ from module.Interfaces import (
 )
 
 logging.basicConfig(
-	filename="D:/Brokers/export.log", 
+	filename=config.logger.file, 
 	filemode='a', 
 	format='%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s',
 	datefmt='%Y-%m-%d %H:%M:%S',

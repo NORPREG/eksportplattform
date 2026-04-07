@@ -1,2 +1,0 @@
-class TerminologyNotFoundException(Exception):
-    pass
