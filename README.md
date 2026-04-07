@@ -14,6 +14,7 @@ Systemet sikrer at:
 * komplette stråleterapiplaner eksporteres
 * alle nødvendige DICOM-objekter følger med
 * eksporten kan spores og reproduseres
+* Senere vil også NPR-rapporten hentes ut fra SMB og pakkes inn i DICOM SR
 
 ---
 
@@ -66,7 +67,7 @@ Conquest PACS
              │
              ▼
       Eksterne mottakere
-      (Medfys / KREST)
+      (NORPREG / KREST)
 ```
 
 ---
