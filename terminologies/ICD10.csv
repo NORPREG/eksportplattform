@@ -1,0 +1,1001 @@
+C000;Ondartet svulst på utside av overleppe
+C001;Ondartet svulst på utside av underleppe
+C002;Ondartet svulst på utside av leppe, uspesifisert
+C003;Ondartet svulst på innside av overleppe
+C004;Ondartet svulst på innside av underleppe
+C005;Ondartet svulst på innside av leppe, uspesifisert
+C006;Ondartet svulst i munnvik
+C008;Overlappende ondartet svulst i leppe
+C009;Ondartet svulst på uspesifisert del av leppe
+C01;Ondartet svulst i tungerot
+C020;Ondartet svulst på fremre to tredjedeler av overside av tunge
+C021;Ondartet svulst på tungerand
+C022;Ondartet svulst på fremre to tredjedeler av underside av tunge
+C023;Ondartet svulst i uspesifisert del av fremre to tredjedeler av tunge
+C024;Ondartet svulst i tungemandel
+C028;Overlappende ondartet svulst i tunge
+C029;Ondartet svulst på uspesifisert del av tunge
+C030;Ondartet svulst i tannkjøtt i overkjeve
+C031;Ondartet svulst i tannkjøtt i underkjeve
+C039;Ondartet svulst med uspesifisert lokalisasjon i tannkjøtt
+C040;Ondartet svulst i fremre del av munngulv
+C041;Ondartet svulst i laterale del av munngulv
+C048;Overlappende ondartet svulst i munngulv
+C049;Ondartet svulst i uspesifisert del av munngulv
+C050;Ondartet svulst i hard gane
+C051;Ondartet svulst i bløt gane
+C052;Ondartet svulst i drøvel
+C058;Overlappende ondartet svulst i gane
+C059;Ondartet svulst med uspesifisert lokalisasjon i gane
+C060;Ondartet svulst i kinnslimhinne
+C061;Ondartet svulst i vestibulum oris
+C062;Ondartet svulst i retromolært område
+C068;Overlappende ondartet svulst i annen eller uspesifisert del av munn
+C069;Ondartet svulst i uspesifisert del av munn
+C07;Ondartet svulst i ørespyttkjertel
+C080;Ondartet svulst i submandibularspyttkjertel
+C081;Ondartet svulst i sublingvalspyttkjertel
+C088;Overlappende ondartet svulst i stor spyttkjertel
+C089;Ondartet svulst i uspesifisert stor spyttkjertel
+C090;Ondartet svulst i tonsilleseng
+C091;Ondartet svulst i ganebue
+C098;Overlappende ondartet svulst i tonsille
+C099;Ondartet svulst med uspesifisert lokalisasjon i tonsille
+C100;Ondartet svulst i vallecula epiglottica
+C101;Ondartet svulst på fremre overflate av strupelokk
+C102;Ondartet svulst på sidevegg i oropharynx
+C103;Ondartet svulst på bakvegg i oropharynx
+C104;Ondartet svulst i gjellebuespalte
+C108;Overlappende ondartet svulst i oropharynx
+C109;Ondartet svulst i uspesifisert del av oropharynx.
+C110;Ondartet svulst på øvre vegg i nasopharynx
+C111;Ondartet svulst på bakre vegg i nasopharynx
+C112;Ondartet svulst på sidevegg i nasopharynx
+C113;Ondartet svulst på fremre vegg i nasopharynx
+C118;Overlappende ondartet svulst i nasopharynx
+C119;Ondartet svulst i uspesifisert del av nasopharynx
+C12;Ondartet svulst i sinus piriformis
+C130;Ondartet svulst i postkrikoidalt område
+C131;Ondartet svulst på hypofaryngeal side av plica aryepiglottica
+C132;Ondartet svulst på bakre vegg i hypopharynx
+C138;Overlappende ondartet svulst i hypopharynx
+C139;Ondartet svulst i uspesifisert del av hypopharynx,
+C140;Ondartet svulst i uspesifisert del av svelg
+C142;Ondartet svulst i Waldeyers ring
+C148;Overlappende ondartet svulst i leppe, munnhule eller svelg
+C153;Ondartet svulst i øvre tredjedel av spiserør
+C154;Ondartet svulst i midtre tredjedel av spiserør
+C155;Ondartet svulst i nedre tredjedel av spiserør
+C158;Overlappende ondartet svulst i spiserør
+C159;Ondartet svulst i uspesifisert del av spiserør
+C160;Ondartet svulst i cardia ventriculi
+C161;Ondartet svulst i fundus ventriculi
+C162;Ondartet svulst i corpus ventriculi
+C163;Ondartet svulst i antrum pyloricum
+C164;Ondartet svulst i pylorus
+C165;Ondartet svulst i uspesifisert del av ventrikkelens curvatura minor
+C166;Ondartet svulst i uspesifisert del av ventrikkelens curvatura major
+C168;Overlappende ondartet svulst i magesekk
+C169;Ondartet svulst i uspesifisert del av magesekk
+C170;Ondartet svulst i tolvfingertarm
+C171;Ondartet svulst i jejunum
+C172;Ondartet svulst i ileum
+C173;Ondartet svulst i Meckels divertikkel
+C178;Overlappende ondartet svulst i tynntarm
+C179;Ondartet svulst i uspesifisert del av tynntarm
+C180;Ondartet svulst i blindtarm (coecum)
+C181;Ondartet svulst i blindtarmsvedheng
+C182;Ondartet svulst i colon ascendens
+C183;Ondartet svulst i colons leverfleksur
+C184;Ondartet svulst i colon transversum
+C185;Ondartet svulst i colons miltfleksur
+C186;Ondartet svulst i colon descendens
+C187;Ondartet svulst i sigmoideum
+C188;Overlappende ondartet svulst i tykktarm
+C189;Ondartet svulst i uspesifisert del av tykktarm
+C19;Ondartet svulst i overgang mellom sigmoideum og rektum
+C20;Ondartet svulst i rektum
+C210;Ondartet svulst i uspesifisert del av endetarmsåpning
+C211;Ondartet svulst i analkanal
+C212;Ondartet svulst i kloakkogen sone
+C218;Overlappende ondartet svulst i rektum, anus eller analkanal
+C220;Levercellekarsinom
+C221;Karsinom i intrahepatisk gallegang
+C222;Hepatoblastom
+C223;Angiosarkom i lever
+C224;Annet sarkom i lever
+C227;Annet karsinom i lever
+C229;Ondartet svulst av uspesifisert type i lever
+C23;Ondartet svulst i galleblære
+C240;Ondartet svulst i ekstrahepatisk gallegang
+C241;Ondartet svulst i Vaters ampulle
+C248;Overlappende ondartet svulst i galleveier
+C249;Ondartet svulst i uspesifisert del av galleveier
+C250;Ondartet svulst i bukspyttkjertelhode
+C251;Ondartet svulst i bukspyttkjertelkropp
+C252;Ondartet svulst i bukspyttkjertelhale
+C253;Ondartet svulst i bukspyttkjertels utførselsgang
+C254;Ondartet svulst i endokrin bukspyttkjertel
+C257;Ondartet svulst i annen spesifisert del av bukspyttkjertel
+C258;Overlappende ondartet svulst i bukspyttkjertel
+C259;Ondartet svulst i uspesifisert del av bukspyttkjertel
+C260;Ondartet svulst i uspesifisert del av tarmkanal
+C261;Ondartet svulst i milt
+C268;Overlappende ondartet svulst i fordøyelsessystemet
+C269;Ondartet svulst med ufullstendig angitt lokalisasjon i fordøyelsessystemet
+C300;Ondartet svulst i nesehule
+C301;Ondartet svulst i mellomøre eller indre øre
+C310;Ondartet svulst i maksillarsinus
+C311;Ondartet svulst i ethmoidalsinus
+C312;Ondartet svulst i frontalsinus
+C313;Ondartet svulst i sfenoidalsinus
+C318;Overlappende ondartet svulst i bihule
+C319;Ondartet svulst i uspesifisert bihule
+C320;Ondartet svulst i glottis
+C321;Ondartet svulst i supraglottiske del av strupe
+C322;Ondartet svulst i subglottiske del av strupe
+C323;Ondartet svulst i strupebrusk
+C328;Overlappende ondartet svulst i strupe
+C329;Ondartet svulst i uspesifisert del av strupe
+C33;Ondartet svulst i luftrør
+C340;Ondartet svulst i hovedbronkie
+C341;Ondartet svulst i lungeoverlappens bronkie- eller lungevev
+C342;Ondartet svulst i lungemidtlappens bronkie- eller lungevev
+C343;Ondartet svulst i lungeunderlappens bronkie- eller lungevev
+C348;Overlappende ondartet svulst i bronkie eller lunge
+C349;Ondartet svulst i uspesifisert del av bronkie eller lunge
+C37;Ondartet svulst i thymus
+C380;Ondartet svulst i hjerte
+C381;Ondartet svulst i fremre mediastinum
+C382;Ondartet svulst i bakre mediastinum
+C383;Ondartet svulst i uspesifisert del av mediastinum
+C384;Ondartet svulst i brysthinne
+C388;Overlappende ondartet svulst i hjerte, mediastinum eller brysthinne
+C390;Ondartet svulst i uspesifisert del av øvre luftveier
+C398;Overlappende ondartet svulst i åndedrettsorgan eller intratorakalt organ
+C399;Ondartet svulst med ufullstendig angitt lokalisasjon i åndedrettsorgan
+C400;Ondartet svulst i skulderblad eller lang knokkel i overekstremitet
+C401;Ondartet svulst i kort knokkel i overekstremitet
+C402;Ondartet svulst i lang knokkel i underekstremitet
+C403;Ondartet svulst i kort knokkel i underekstremitet
+C408;Overlappende ondartet svulst i knokkel eller leddbrusk i ekstremitet
+C409;Ondartet svulst i uspesifisert del av knokkel eller leddbrusk i ekstremitet
+C410;Ondartet svulst i knokkel i skalle eller ansikt
+C411;Ondartet svulst i underkjeve
+C412;Ondartet svulst i ryggsøyle
+C413;Ondartet svulst i ribben, brystben eller krageben
+C414;Ondartet svulst i bekkenben, korsben eller haleben
+C418;Overlappende ondartet svulst i knokkel eller leddbrusk
+C419;Ondartet svulst i uspesifisert del av knokkel eller leddbrusk
+C430;Malignt melanom på leppe
+C431;Malignt melanom på øyelokk eller øyevinkel
+C432;Malignt melanom på øre eller i ytre øregang
+C433;Malignt melanom i annen eller uspesifisert del av ansikt
+C434;Malignt melanom i hodebunn eller på hals
+C435;Malignt melanom på trunkus
+C436;Malignt melanom på overekstremitet eller skulder
+C437;Malignt melanom på underekstremitet eller hofte
+C438;Overlappende malignt melanom i hud
+C439;Malignt melanom med uspesifisert lokalisasjon i hud
+C440;Ondartet svulst i hud på leppe
+C441;Ondartet svulst i hud på øyelokk eller øyevinkel
+C442;Ondartet svulst i hud på øre eller i ytre øregang
+C443;Ondartet svulst i hud i annen eller uspesifisert del av ansikt
+C444;Ondartet svulst i hud i hodebunn eller på hals
+C445;Ondartet svulst i hud på trunkus
+C446;Ondartet svulst i hud på overekstremitet eller skulder
+C447;Ondartet svulst i hud på underekstremitet eller hofte
+C448;Overlappende ondartet svulst i hud
+C449;Ondartet svulst med uspesifisert lokalisasjon i hud
+C450;Mesoteliom i brysthinne
+C451;Mesoteliom i bukhinne
+C452;Mesoteliom i perikard
+C457;Mesoteliom med annet spesifisert utgangspunkt
+C459;Mesoteliom med uspesifisert lokalisasjon
+C460;Kaposis sarkom i hud
+C461;Kaposis sarkom i bløtvev
+C462;Kaposis sarkom i gane
+C463;Kaposis sarkom i lymfeknuter
+C467;Kaposis sarkom med annet spesifisert utgangspunkt
+C468;Kaposis sarkom i flere organer
+C469;Kaposis sarkom med uspesifisert lokalisasjon
+C470;Ondartet svulst i perifer nerve i hode, ansikt eller hals
+C471;Ondartet svulst i perifer nerve i overekstremitet eller skulder
+C472;Ondartet svulst i perifer nerve i underekstremitet eller hofte
+C473;Ondartet svulst i perifer nerve i toraks
+C474;Ondartet svulst i perifer nerve i buken
+C475;Ondartet svulst i perifer nerve i bekken
+C476;Ondartet svulst i perifer nerve med uspesifisert lokalisasjon i trunkus
+C478;Overlappende ondartet svulst i perifer nerve eller det autonome nervesystem
+C479;Ondartet svulst med uspesifisert lokalisasjon i perifer nerve eller det autonome nervesystem
+C480;Ondartet svulst i retroperitoneum
+C481;Ondartet svulst i spesifisert del av bukhinne
+C482;Ondartet svulst med uspesifisert lokalisasjon i bukhinne
+C488;Overlappende ondartet svulst i retroperitoneum eller bukhinne
+C490;Ondartet svulst i bindevev eller bløtvev i hode, ansikt eller på hals
+C491;Ondartet svulst i bindevev eller bløtvev i overekstremitet eller skulder
+C492;Ondartet svulst i bindevev eller bløtvev i underekstremitet eller hofte
+C493;Ondartet svulst i bindevev eller bløtvev i toraks
+C494;Ondartet svulst i bindevev eller bløtvev i buken
+C495;Ondartet svulst i bindevev eller bløtvev i bekken
+C496;Ondartet svulst i bindevev eller bløtvev med uspesifisert lokalisasjon i trunkus
+C498;Overlappende ondartet svulst i bindevev eller bløtvev
+C499;Ondartet svulst i bindevev eller bløtvev med uspesifisert lokalisasjon
+C500;Ondartet svulst i brystvorte eller areola mammae
+C501;Ondartet svulst i sentral del av bryst
+C502;Ondartet svulst i øvre indre kvadrant av bryst
+C503;Ondartet svulst i nedre indre kvadrant av bryst
+C504;Ondartet svulst i øvre ytre kvadrant av bryst
+C505;Ondartet svulst i nedre ytre kvadrant av bryst
+C506;Ondartet svulst i aksillær del av bryst
+C508;Overlappende ondartet svulst i bryst
+C509;Ondartet svulst med uspesifisert lokalisasjon i bryst
+C510;Ondartet svulst i stor kjønnsleppe
+C511;Ondartet svulst i liten kjønnsleppe
+C512;Ondartet svulst i klitoris
+C518;Overlappende ondartet svulst i ytre kvinnelige kjønnsorganer
+C519;Ondartet svulst med uspesifisert lokalisasjon i ytre kvinnelige kjønnsorganer
+C52;Ondartet svulst i skjede
+C530;Ondartet svulst i endocervix
+C531;Ondartet svulst i ektocervix
+C538;Overlappende ondartet svulst i livmorhals
+C539;Ondartet svulst med uspesifisert lokalisasjon i livmorhals
+C540;Ondartet svulst i isthmus uteri
+C541;Ondartet svulst i livmorslimhinne
+C542;Ondartet svulst i muskulatur i livmorvegg
+C543;Ondartet svulst i fundus uteri
+C548;Overlappende ondartet svulst i livmorlegeme
+C549;Ondartet svulst med uspesifisert lokalisasjon i livmorlegeme
+C55;Ondartet svulst i uspesifisert del av livmor
+C56;Ondartet svulst i eggstokk
+C570;Ondartet svulst i eggleder
+C571;Ondartet svulst i ligamentum latum uteri
+C572;Ondartet svulst i ligamentum rotundum uteri
+C573;Ondartet svulst i parametrium
+C574;Ondartet svulst med uspesifisert lokalisasjon i adnexa uteri
+C577;Ondartet svulst i annen spesifisert del av kvinnelige kjønnsorganer
+C578;Overlappende ondartet svulst i kvinnelige kjønnsorganer
+C579;Ondartet svulst med uspesifisert lokalisasjon i kvinnelige kjønnsorganer
+C58;Ondartet svulst i morkake
+C600;Ondartet svulst i forhud
+C601;Ondartet svulst i penishode
+C602;Ondartet svulst i penisskaft
+C608;Overlappende ondartet svulst i penis
+C609;Ondartet svulst med uspesifisert lokalisasjon i penis
+C61;Ondartet svulst i blærehalskjertel
+C620;Ondartet svulst i ikke-descendert testikkel
+C621;Ondartet svulst i descendert testikkel
+C629;Ondartet svulst med uspesifisert lokalisasjon i testikkel
+C630;Ondartet svulst i bitestikkel
+C631;Ondartet svulst i sædleder
+C632;Ondartet svulst i pung
+C637;Ondartet svulst i annen del av mannlige kjønnsorganer
+C638;Overlappende ondartet svulst i mannlige kjønnsorganer
+C639;Ondartet svulst med uspesifisert lokalisasjon i mannlige kjønnsorganer
+C64;Ondartet svulst i nyre unntatt nyrebekken
+C65;Ondartet svulst i nyrebekken
+C66;Ondartet svulst i urinleder
+C670;Ondartet svulst i blæretrekant
+C671;Ondartet svulst i blæretak
+C672;Ondartet svulst i sidevegg i urinblære
+C673;Ondartet svulst i fremre vegg i urinblære
+C674;Ondartet svulst i bakre vegg i urinblære
+C675;Ondartet svulst i blærehals
+C676;Ondartet svulst i urinlederåpning
+C677;Ondartet svulst i urachus
+C678;Overlappende ondartet svulst i urinblære
+C679;Ondartet svulst med uspesifisert lokalisasjon i urinblære
+C680;Ondartet svulst i urinrør
+C681;Ondartet svulst i parauretral kjertel
+C688;Overlappende ondartet svulst i urinveisorgan
+C689;Ondartet svulst med uspesifisert lokalisasjon i urinveisorgan
+C690;Ondartet svulst i conjunctiva
+C691;Ondartet svulst i hornhinne
+C692;Ondartet svulst i netthinne
+C693;Ondartet svulst i årehinne
+C694;Ondartet svulst i strålelegeme
+C695;Ondartet svulst i tårekjertel eller tårekanal
+C696;Ondartet svulst i øyehule
+C698;Overlappende ondartet svulst i øye eller øyets adneksstruktur
+C699;Ondartet svulst med uspesifisert lokalisasjon i øye
+C700;Ondartet svulst i hjernehinne
+C701;Ondartet svulst i ryggmargshinne
+C709;Ondartet svulst med uspesifisert lokalisasjon i hjerne- eller ryggmargshinne
+C710;Ondartet svulst i storhjerne unntatt lapper og ventrikler
+C711;Ondartet svulst i pannelapp
+C712;Ondartet svulst i tinninglapp
+C713;Ondartet svulst i isselapp
+C714;Ondartet svulst i bakhodelapp
+C715;Ondartet svulst i hjerneventrikkel
+C716;Ondartet svulst i lillehjerne
+C717;Ondartet svulst i hjernestamme
+C718;Overlappende ondartet svulst i hjerne
+C719;Ondartet svulst med uspesifisert lokalisasjon i hjerne
+C720;Ondartet svulst i ryggmarg
+C721;Ondartet svulst i cauda equina
+C722;Ondartet svulst i nervus olfactorius
+C723;Ondartet svulst i nervus opticus
+C724;Ondartet svulst i nervus vestibulocochlearis
+C725;Ondartet svulst i annen eller uspesifisert hjernenerve
+C728;Overlappende ondartet svulst i hjerne eller annen del av sentralnervesystem
+C729;Ondartet svulst med uspesifisert lokalisasjon i sentralnervesystem
+C73;Ondartet svulst i skjoldbruskkjertel
+C740;Ondartet svulst i binyrebark
+C741;Ondartet svulst i binyremarg
+C749;Ondartet svulst i uspesifisert del av binyre
+C750;Ondartet svulst i biskjoldbruskkjertel
+C751;Ondartet svulst i hypofyse
+C752;Ondartet svulst i ductus craniopharyngealis
+C753;Ondartet svulst i corpus pineale
+C754;Ondartet svulst i glomus caroticum
+C755;Ondartet svulst i aortalegeme eller annet paraganglion
+C758;Ondartet svulst med affeksjon av multiple uspesifiserte endokrine kjertler
+C759;Ondartet svulst i uspesifisert endokrin kjertel
+C760;Ondartet svulst i hode, ansikt eller hals
+C761;Ondartet svulst i toraks
+C762;Ondartet svulst i buken
+C763;Ondartet svulst i bekken
+C764;Ondartet svulst i overekstremitet
+C765;Ondartet svulst i underekstremitet
+C767;Ondartet svulst med annet ufullstendig angitt utgangspunkt
+C768;Overlappende ondartet svulst med annet eller ufullstendig angitt utgangspunkt
+C770;Metastase eller uspesifisert ondartet svulst i lymfeknute i hode, ansikt eller på hals
+C7700;Mikrometastase i lymfeknute i hode, ansikt eller på hals
+C771;Metastase eller uspesifisert ondartet svulst i intratorakal lymfeknute
+C7710;Mikrometastase i intratorakal lymfeknute
+C772;Metastase eller uspesifisert ondartet svulst i intraabdominal lymfeknute
+C7720;Mikrometastase i intraabdominal lymfeknute
+C773;Metastase eller uspesifisert ondartet svulst i lymfeknute i aksille eller overekstremitet
+C7730;Mikrometastase i lymfeknute i aksille eller overekstremitet
+C774;Metastase eller uspesifisert ondartet svulst i lymfeknute i lyske eller underekstremitet
+C7740;Mikrometastase i lymfeknute i lyske eller underekstremitet
+C775;Metastase eller uspesifisert ondartet svulst i lymfeknute i bekken
+C7750;Mikrometastase i lymfeknute i bekken
+C778;Metastase eller uspesifisert ondartet svulst i lymfeknuter i flere kroppsregioner
+C7780;Mikrometastase i lymfeknuter i flere kroppsregioner
+C779;Metastase eller uspesifisert ondartet svulst i lymfeknute med uspesifisert lokalisasjon
+C7790;Mikrometastase i lymfeknute med uspesifisert lokalisasjon
+C780;Metastase i lunge
+C7800;Mikrometastase i lunge
+C781;Metastase i mediastinum
+C7810;Mikrometastase i mediastinum
+C782;Metastase i brysthinne
+C7820;Mikrometastase i brysthinne
+C783;Metastase i annet eller uspesifisert åndedrettsorgan
+C7830;Mikrometastase i annet eller uspesifisert åndedrettsorgan
+C784;Metastase i tynntarm
+C7840;Mikrometastase i tynntarm
+C785;Metastase i tykktarm, endetarm, analkanal eller endetarmsåpning
+C7850;Mikrometastase i tykktarm, endetarm, analkanal eller endetarmsåpning
+C786;Metastase i retroperitoneum eller bukhinne
+C7860;Mikrometastase i retroperitoneum eller bukhinne
+C787;Metastase i lever eller intrahepatisk gallegang
+C7870;Mikrometastase i lever eller intrahepatisk gallegang
+C788;Metastase i annet eller uspesifisert fordøyelsesorgan
+C7880;Mikrometastase i annet eller uspesifiserte fordøyelsesorgan
+C790;Metastase i nyre eller nyrebekken
+C7900;Mikrometastase i nyre eller nyrebekken
+C791;Metastase i urinblære eller annen eller uspesifisert del av urinveier
+C7910;Mikrometastase i urinblære eller annen eller uspesifisert del av urinveier
+C792;Metastase i hud
+C7920;Mikrometastase i hud
+C7921;Metastase i stikkanal og portkanal i hud
+C793;Metastase i hjerne eller hjernehinne
+C7930;Mikrometastase i hjerne eller hjernehinne
+C794;Metastase i annen eller uspesifisert del av nervesystemet
+C7940;Mikrometastase i annen eller uspesifisert del av nervesystemet
+C795;Metastase i knokkel eller benmarg
+C7950;Mikrometastase i knokkel eller benmarg
+C796;Metastase i eggstokk
+C7960;Mikrometastase i eggstokk
+C797;Metastase i binyre
+C7970;Mikrometastase i binyre
+C798;Metastase med annen spesifisert lokalisasjon
+C7980;Mikrometastase med annen spesifisert lokalisasjon
+C7981;Metastase i stikkanal og portkanal i muskel og bindevev
+C799;Metastase med uspesifisert lokalisasjon
+C7990;Mikrometastase med uspesifisert lokalisasjon
+C800;Ondartet svulst med utgangspunkt angitt som ukjent
+C809;Ondartet svulst med uspesifisert utgangspunkt
+C810;Nodulært lymfocyttrikt Hodgkin lymfom
+C811;(Klassisk) Hodgkins sykdom av type nodulær sklerose
+C812;(Klassisk) Hodgkin lymfom av blandingstype
+C813;Lymfocyttfattig (klassisk) Hodgkin lymfom
+C814;Lymfocyttrikt (klassisk Hodgkin lymfom
+C817;Annen type av (klassisk) Hodgkin lymfom
+C819;Uspesifisert Hodgkins sykdom
+C820;Follikulært lymfom grad 1
+C821;Follikulært lymfom grad 2
+C822;Follikulært lymfom av uspesifisert grad 3
+C823;Follikulært lymfom grad 3a
+C824;Follikulært lymfom grad 3b
+C825;Diffust follikkelsenterlymfom
+C826;Kutant follikkelsenterlymfom
+C827;Annen type av follikulært lymfom
+C829;Uspesifisert follikulært lymfom
+C830;Småcellet B-cellelymfom
+C831;Mantelcellelymfom
+C833;Diffust storcellet B-celle lymfom
+C835;Lymfoblastisk (diffust) lymfom
+C837;Burkitt lymfom
+C838;Annen type ikke-follikulært lymfom
+C839;Uspesifisert ikke-follikulært (diffust) lymfom
+C840;Mycosis fungoides
+C841;Sézary syndrom
+C844;Perifert T-cellelymfom, ikke klassifisert annet sted
+C845;Annet modent T/NK-cellelymfom
+C846;Anaplastisk storcellet ALK-positivt lymfom
+C847;Anaplastisk storcellet ALK-negativt lymfom
+C848;Uspesifisert kutant T-cellelymfom
+C849;Uspesifisert modent T/NK-cellelymfom
+C851;Uspesifisert B-cellelymfom
+C852;Mediastinalt storcellet B-cellelymfom
+C857;Annen spesifisert type non-Hodgkin lymfom
+C859;Uspesifisert non-Hodgkin lymfom
+C860;Ekstranodalt NK/T nasal type Tcellelymfom
+C861;Hepatosplenisk T-celle lymfom
+C862;Enteropati-type T-cellelymfom
+C863;Subkutant pannikulitt-liknende T-cellelymfom
+C864;Blastisk NK-cellelymfom
+C865;Angioimmunoblastisk T-cellelymfom
+C866;Primær kutan CD30-positiv T-celleproliferasjon
+C880;Waldenströms makroglobulinemi
+C882;Annen sykdom med tunge kjeder
+C883;Immunoproliferativ tynntarmssykdom
+C884;Ekstranodalt marginalsone B-cellelymfom i mukosaassosiert lymfoid vev
+C887;Annen ondartet immunoproliferativ sykdom
+C889;Uspesifisert ondartet immunoproliferativ sykdom
+C900;Myelomatose
+C901;Plasmacelleleukemi
+C902;Ekstramedullært plasmocytom
+C903;Solitært plasmocytom
+C910;Akutt lymfoblastisk leukemi
+C911;Kronisk lymfatisk leukemi
+C913;Prolymfocyttleukemi av B-celletype
+C914;Hårcelleleukemi
+C915;Adult T-celleleukemi eller lymfom
+C916;Prolymfocyttleukemi av T-celletype
+C917;Annen lymfoid leukemi
+C918;Burkitt leukemi
+C919;Uspesifisert lymfoid leukemi
+C920;Akutt myelogen leukemi
+C921;Kronisk myelogen leukemi, BCR/ABL-positiv
+C922;Atypisk kronisk myelogen leukemi, BCR/ABL-negativ
+C923;Myeloid sarkom
+C924;Akutt promyelocyttleukemi
+C925;Akutt myelomonocyttleukemi
+C926;Akutt myelogen leukemi med 11q23-aberrasjon
+C927;Annen myelogen leukemi
+C928;Akutt myelogen leukemi med multilineær dysplasi
+C929;Uspesifisert myelogen leukemi
+C930;Akutt monoblast/monocyttleukemi
+C931;Kronisk myelomonocyttleukemi
+C933;Juvenil myelomonocyttleukemi
+C937;Annen monocyttleukemi
+C939;Uspesifisert monocyttleukemi
+C940;Akutt erytroid leukemi
+C942;Akutt megakaryoblastleukemi
+C943;Mastcelleleukemi
+C944;Akutt panmyelose med myelofibrose
+C946;Myelodysplastisk eller myeloproliferativ sykdom, ikke klassifiserbar
+C947;Annen spesifisert leukemi
+C950;Akutt leukemi med uspesifisert celletype
+C951;Kronisk leukemi med uspesifisert celletype
+C957;Annen leukemi med uspesifisert celletype
+C959;Uspesifisert leukemi
+C960;Multifokal og multisystemisk Langerhanscellehistiocytose
+C962;Malign mastcelletumor
+C964;Sarkom med dendrittiske celler
+C965;Multifokal og unisystemisk Langerhanscellehistiocytose
+C966;Unifokal Langerhanscellehistiocytose
+C967;Annen spesifisert ondartet svulst utgått fra lymfoid, hematopoetisk eller beslektet vev
+C968;Histiocytært sarkom
+C969;Upesifisert ondartet svulst utgått fra lymfoid, hematopoetisk eller beslektet vev
+C97;Multiple primære ondartede svulster med forskjellige utgangspunkter
+D000;Carcinoma in situ på leppe, i munnhule eller i svelg
+D001;Carcinoma in situ i spiserør
+D002;Carcinoma in situ i magesekk
+D010;Carcinoma in situ i tykktarm
+D011;Carcinoma in situ i overgangen mellom sigmoideum og endetarm
+D012;Carcinoma in situ i endetarm
+D013;Carcinoma in situ i endetarmsåpning eller analkanal
+D014;Carcinoma in situ i annen eller uspesifisert del av tarm
+D015;Carcinoma in situ i lever, galleblære eller gallegang
+D017;Carcinoma in situ i annet spesifisert fordøyelsesorgan
+D019;Carcinoma in situ i uspesifisert fordøyelsesorgan
+D020;Carcinoma in situ i strupe
+D021;Carcinoma in situ i luftrør
+D022;Carcinoma in situ i bronkie eller lunge
+D023;Carcinoma in situ i annet spesifisert åndedrettsorgan
+D024;Carcinoma in situ i uspesifisert åndedrettsorgan
+D030;Melanoma in situ i leppe
+D031;Melanoma in situ på øyelokk eller i øyevinkel
+D032;Melanoma in situ på øre eller i ytre øregang
+D033;Melanoma in situ i annen eller uspesifisert del av ansikt
+D034;Melanoma in situ i hodebunn eller på hals
+D035;Melanoma in situ på trunkus
+D036;Melanoma in situ på overekstremitet eller skulder
+D037;Melanoma in situ på underekstremitet eller hofte
+D038;Melanoma in situ med annen lokalisasjon
+D039;Melanoma in situ på uspesifisert sted
+D040;Carcinoma in situ i hud på leppe
+D041;Carcinoma in situ i hud på øyelokk eller i øyevinkel
+D042;Carcinoma in situ i hud på øre eller i ytre øregang
+D043;Carcinoma in situ i hud på annen eller uspesifisert del av ansikt
+D044;Carcinoma in situ i hud i hodebunn eller på hals
+D045;Carcinoma in situ i hud på trunkus
+D046;Carcinoma in situ i hud på overekstremitet eller skulder
+D047;Carcinoma in situ i hud på underekstremitet eller hofte
+D048;Carcinoma in situ i hud med annen lokalisasjon
+D049;Carcinoma in situ i hud med uspesifisert lokalisasjon
+D050;Lobulært carcinoma in situ i bryst
+D051;Intraduktalt carcinoma in situ i bryst
+D057;Annet spesifisert carcinoma in situ i bryst
+D059;Uspesifisert carcinoma in situ i bryst
+D060;Carcinoma in situ i endocervix
+D061;Carcinoma in situ i ektocervix
+D067;Carcinoma in situ i annen spesifisert del av livmorhals
+D069;Carcinoma in situ i uspesifisert del av livmorhals
+D070;Carcinoma in situ i livmorslimhinne
+D071;Carcinoma in situ i ytre kvinnelige kjønnsorganer
+D072;Carcinoma in situ i skjede
+D073;Carcinoma in situ i annet eller uspesifisert kvinnelig kjønnsorgan
+D074;Carcinoma in situ i penis
+D075;Carcinoma in situ i blærehalskjertel
+D076;Carcinoma in situ i annet eller uspesifisert mannlig kjønnsorgan
+D090;Carcinoma in situ i urinblære
+D091;Carcinoma in situ i annet eller uspesifisert urinveisorgan
+D092;Carcinoma in situ i øye
+D093;Carcinoma in situ i skjoldbruskkjertel eller annen endokrin kjertel
+D097;Carcinoma in situ med annen spesifisert lokalisasjon
+D099;Carcinoma in situ med uspesifisert lokalisasjon
+D100;Godartet svulst i leppe
+D101;Godartet svulst i tunge
+D102;Godartet svulst i munngulv
+D103;Godartet svulst i annen eller uspesifisert del av munn
+D104;Godartet svulst i mandel
+D105;Godartet svulst i annen del av orofarynks
+D106;Godartet svulst i nasofarynks
+D107;Godartet svulst i hypofarynks
+D109;Godartet svulst i uspesifisert del av svelg
+D110;Godartet svulst i glandula parotis
+D117;Godartet svulst i annen stor spyttkjertel
+D119;Godartet svulst i uspesifisert stor spyttkjertel
+D120;Godartet svulst i blindtarm (coecum)
+D121;Godartet svulst i blindtarmsvedheng
+D122;Godartet svulst i colon ascendens
+D123;Godartet svulst i colon transversum
+D124;Godartet svulst i colon descendens
+D125;Godartet svulst i sigmoideum
+D126;Godartet svulst i uspesifisert del av tykktarm
+D127;Godartet svulst i overgangen mellom sigmoideum og rektum
+D128;Godartet svulst i endetarm
+D129;Godartet svulst i endetarmsåpning eller analkanal
+D130;Godartet svulst i spiserør
+D131;Godartet svulst i magesekk
+D132;Godartet svulst i tolvfingertarm
+D133;Godartet svulst i annen eller uspesifisert del av tynntarm
+D134;Godartet svulst i lever
+D135;Godartet svulst i ekstrahepatisk gallegang
+D136;Godartet svulst i bukspyttkjertel
+D137;Godartet svulst i endokrin bukspyttkjertel
+D139;Godartet svulst i ufullstendig angitt lokalisasjon innen fordøyelsessystemet
+D140;Godartet svulst i mellomøre, nesehule eller bihule
+D141;Godartet svulst i strupe
+D142;Godartet svulst i luftrør
+D143;Godartet svulst i bronkie eller lunge
+D144;Godartet svulst i uspesifisert del av åndedrettsorgan
+D150;Godartet svulst i thymus
+D151;Godartet svulst i hjerte
+D152;Godartet svulst i mediastinum
+D157;Godartet svulst i annet spesifisert intratorakalt organ
+D159;Godartet svulst i uspesifisert intratorakalt organ
+D160;Godartet svulst i skulderblad eller lang knokkel i overekstremitet
+D161;Godartet svulst i kort knokkel i overekstremitet
+D162;Godartet svulst i lang knokkel i underekstremitet
+D163;Godartet svulst i kort knokkel i underekstremitet
+D164;Godartet svulst i knokkel i skalle eller ansikt
+D165;Godartet svulst i underkjeve
+D166;Godartet svulst i ryggsøyle
+D167;Godartet svulst i ribben, brystben eller krageben
+D168;Godartet svulst i bekkenben, korsben eller haleben
+D169;Godartet svulst i uspesifisert knokkel eller leddbrusk
+D170;Lipom i hud eller subkutant vev på hode, i ansikt eller på hals
+D171;Lipom i hud eller subkutant vev på trunkus
+D172;Lipom i hud eller subkutant vev på ekstremitet
+D173;Lipom i hud eller subkutant vev med annen eller uspesifisert lokalisasjon
+D174;Lipom i intratorakalt organ
+D175;Lipom i intraabdominalt organ
+D176;Lipom i sædleder
+D177;Lipom med annen spesifisert lokalisasjon
+D179;Lipom med uspesifisert lokalisasjon
+D180;Hemangiom med enhver lokalisasjon
+D181;Lymfangiom med enhver lokalisasjon
+D190;Mesotel i brysthinne
+D191;Mesotel i bukhinne
+D197;Mesotel med annen spesifisert lokalisasjon
+D199;Mesotel med uspesifisert lokalisasjon
+D200;Godartet svulst i retroperitoneum
+D201;Godartet svulst i bukhinne
+D210;Godartet svulst i bindeev eller annet bløtvev i hode, ansikt eller på hals
+D211;Godartet svulst i bindevev eler annet bløtvev i overekstremitet eller skulder
+D212;Godartet svulst i bindevev eller annet bløtvev i underekstremitet eller hofte
+D213;Godartet svulst i bindevev eller annet bløtvev i toraks
+D214;Godartet svulst i bindevev eller annet bløtvev i buken
+D215;Godartet svulst i bindevev eller annet bløtvev i bekken
+D216;Godartet svulst i bindevev eller annet bløtvev i uspesifisert del av trunkus
+D219;Godartet svulst i bindevev eller annet bløtvev med uspesifisert lokalisasjon
+D220;Melanocyttnevus på leppe
+D221;Melanocyttnevus på øyelokk eller i øyevinkel
+D222;Melanocyttnevus på øre eller i ytre øregang
+D223;Melanocyttnevus i annen eller uspesifisert del av ansikt
+D224;Melanocyttnevus i hodebunn eller på hals
+D225;Melanocyttnevus på trunkus
+D226;Melanocyttnevus på overekstremitet eller skulder
+D227;Melanocyttnevus på underekstremitet eller hofte
+D229;Melanocyttnevus med uspesifisert lokalisasjon
+D230;Godartet svulst i hud på leppe
+D231;Godartet svulst i hud på øyelokk eller i øyevinkel
+D232;Godartet svulst i hud på øre eller i ytre øregang
+D233;Godartet svulst i hud på annen eller uspesifisert del av ansikt
+D234;Godartet svulst i hud i hodebunn eller på hals
+D235;Godartet svulst i hud på trunkus
+D236;Godartet svulst i hud på overekstremitet eller skulder
+D237;Godartet svulst i hud på underekstremitet eller hofte
+D239;Godartet svulst i hud med uspesifisert lokalisasjon
+D24;Godartet svulst i bryst
+D250;Submukøst leiomyom i livmor
+D251;Intramuralt leiomyom i livmor
+D252;Subserøst leiomyom i livmor
+D259;Leiomyom med uspesifisert lokalisasjon i livmor
+D260;Annen godartet svulst i livmorhals
+D261;Annen godartet svulst i livmorlegeme
+D267;Annen godartet svulst i annen spesifisert del av livmor
+D269;Annen godartet svulst i uspesifisert del av livmor
+D27;Godartet svulst i eggstokk
+D280;Godartet svulst i ytre kvinnelige kjønnsorganer
+D281;Godartet svulst i skjede
+D282;Godartet svulst i eggleder eller uterinligament
+D287;Godartet svulst i annet spesifisert kvinnelig kjønnsorgan
+D289;Godartet svulst i uspesifisert kvinnelig kjønnsorgan
+D290;Godartet svulst i penis
+D291;Godartet svulst i blærehalskjertel
+D292;Godartet svulst i testikkel
+D293;Godartet svulst i bitestikkel
+D294;Godartet svulst i pung
+D297;Godartet svulst i annet spesifisert mannlig kjønnsorgan
+D299;Godartet svulst i uspesifisert mannlig kjønnsorgan
+D300;Godartet svulst i nyre
+D301;Godartet svulst i nyrebekken
+D302;Godartet svulst i urinleder
+D303;Godartet svulst i urinblære
+D304;Godartet svulst i urinrør
+D307;Godartet svulst i annet spesifisert urinveisorgan
+D309;Godartet svulst i uspesifisert urinveisorgan
+D310;Godartet svulst i conjunctiva
+D311;Godartet svulst i hornhinne
+D312;Godartet svulst i netthinne
+D313;Godartet svulst i årehinne
+D314;Godartet svulst i strålelegeme
+D315;Godartet svulst i tårekjertel
+D316;Godartet svulst i øyehule
+D319;Godartet svulst med uspesifisert lokalisasjon i øye
+D320;Godartet svulst i hjernehinne
+D321;Godartet svulst i ryggmargshinne
+D329;Godartet svulst med uspesifisert lokalisasjon i hjerne- eller ryggmargshinne
+D330;Godartet svulst med supratentoriell lokalisasjon i hjerne
+D331;Godartet svulst med infratentoriell lokalisasjon i hjerne
+D332;Godartet svulst med uspesifisert lokalisasjon i hjerne
+D333;Godartet svulst i hjernenerve
+D334;Godartet svulst i ryggmarg
+D337;Godartet svulst i annen spesifisert del av sentralnervesystemet
+D339;Godartet svulst i uspesifisert del av sentralnervesystemet
+D34;Godartet svulst i skjoldbruskkjertel
+D350;Godartet svulst i binyre
+D351;Godartet svulst i biskjoldbruskkjertel
+D352;Godartet svulst i hypofyse
+D353;Godartet svulst i ductus craniopharyngealis
+D354;Godartet svulst i corpus pineale
+D355;Godartet svulst i glomus caroticum
+D356;Godartet svulst i aortalegeme eller annet paraganglion
+D357;Godartet svulst i annen spesifisert endokrin kjertel
+D358;Godartet svulst med affeksjon av multiple endokrine kjertler
+D359;Godartet svulst i uspesifisert endokrin kjertel
+D360;Godartet svulst i lymfeknute
+D361;Godartet svulst i perifer nerve eller det autonome nervesystem
+D367;Godartet svulst med annen spesifisert lokalisasjon
+D369;Godartet svulst med uspesifisert lokalisasjon
+D3700;Svulst med patologisk anatomisk påvist usikkert malignitetspotensial i leppe, munnhule eller svelg
+D3701; Svulst med klinisk usikkert malignitetspotensial i leppe, munnhule eller svelg
+D3710; Svulst med patologisk anatomisk påvist usikkert malignitetspotensial i magesekk
+D3711; Svulst med klinisk usikkert malignitetspotensial i magesekk
+D3720; Svulst med patologisk anatomisk påvist usikkert malignitetspotensial i tynntarm
+D3721; Svulst med klinisk usikkert malignitetspotensial i tynntarm
+D3730; Svulst med patologisk anatomisk påvist usikkert malignitetspotensial i blindtarmsvedheng
+D3731; Svulst med klinisk usikkert malignitetspotensial i blindtarmsvedheng
+D3740; Svulst med patologisk anatomisk påvist usikkert malignitetspotensial i tykktarm
+D3741; Svulst med klinisk usikkert malignitetspotensial i tykktarm
+D3750; Svulst med patologisk anatomisk påvist usikkert malignitetspotensial i endetarm
+D3751; Svulst med klinisk usikkert malignitetspotensial i endetarm
+D3760; Svulst med patologisk anatomisk påvist usikkert malignitetspotensial i lever, galleblære eller gallegang
+D3761; Svulst med klinisk usikkert malignitetspotensial i lever, galleblære eller gallegang
+D3770; Svulst med patologisk anatomisk påvist usikkert malignitetspotensial i annet spesifisert fordøyelsesorgan
+D3771; Svulst med klinisk usikkert malignitetspotensial i annet spesifisert fordøyelsesorgan
+D379;Svulst med usikkert eller ukjent malignitetspotensial i uspesifisert fordøyelsesorgan
+D3800; Svulst med patologisk anatomisk påvist usikkert malignitetspotensial i strupe
+D3801; Svulst med klinisk usikkert malignitetspotensial i strupe
+D3810; Svulst med patologisk anatomisk påvist usikkert malignitetspotensial i luftrør, bronkie eller lunge
+D3811; Svulst med klinisk usikkert malignitetspotensial i luftrør, bronkie eller lunge
+D3820; Svulst med patologisk anatomisk påvist usikkert malignitetspotensial i brysthinne
+D3821; Svulst med klinisk usikkert malignitetspotensial i brysthinne
+D3830; Svulst med patologisk anatomisk påvist usikkert malignitetspotensial i mediastinum
+D3831; Svulst med klinisk usikkert malignitetspotensial i mediastinum
+D3840; Svulst med patologisk anatomisk påvist usikkert malignitetspotensial i thymus
+D3841; Svulst med klinisk usikkert malignitetspotensial i thymus
+D3850; Svulst med patologisk anatomisk påvist usikkert malignitetspotensial i annet spesifisert åndedrettsorgan
+D3851; Svulst med klinisk usikkert malignitetspotensial i annet spesifisert åndedrettsorgan
+D386;Svulst med usikkert eller ukjent malignitetspotensial i uspesifisert åndedrettsorgan
+D3900; Svulst med patologisk anatomisk påvist usikkert malignitetspotensial i livmor
+D3901; Svulst med klinisk usikkert malignitetspotensial i livmor
+D3910; Svulst med patologisk anatomisk påvist usikkert malignitetspotensial i eggstokk
+D3911; Svulst med klinisk usikkert malignitetspotensial i eggstokk
+D3920; Svulst med patologisk anatomisk påvist usikkert malignitetspotensial i morkake
+D3921; Svulst med klinisk usikkert malignitetspotensial i morkake
+D3970; Svulst med patologisk anatomisk påvist usikkert malignitetspotensial i annet spesifisert kvinnelig kjønnsorgan
+D3971; Svulst med klinisk usikkert malignitetspotensial i annet spesifisert kvinnelig kjønnsorgan
+D399;Svulst med usikkert eller ukjent malignitetspotensial i uspesifisert kvinnelig kjønnsorgan
+D4000; Svulst med patologisk anatomisk påvist usikkert malignitetspotensial i blærehalskjertel
+D4001; Svulst med klinisk usikkert malignitetspotensial i blærehalskjertel
+D4010; Svulst med patologisk anatomisk påvist usikkert malignitetspotensial i testikkel
+D4011; Svulst med klinisk usikkert malignitetspotensial i testikkel
+D4070; Svulst med patologisk anatomisk påvist usikkert malignitetspotensial i annet spesifisert mannlig kjønnsorgan
+D4071; Svulst med klinisk usikkert malignitetspotensial i annet spesifisert mannlig kjønnsorgan
+D409;Svulst med usikkert eller ukjent malignitetspotensial i uspesifisert mannlig kjønnsorgan
+D4100; Svulst med patologisk anatomisk påvist usikkert malignitetspotensial i nyre
+D4101; Svulst med klinisk usikkert malignitetspotensial i nyre
+D4110; Svulst med patologisk anatomisk påvist usikkert malignitetspotensial i nyrebekken
+D4111; Svulst med klinisk usikkert malignitetspotensial i nyrebekken
+D4120; Svulst med patologisk anatomisk påvist usikkert malignitetspotensial i urinleder
+D4121; Svulst med klinisk usikkert malignitetspotensial i urinleder
+D4130; Svulst med patologisk anatomisk påvist usikkert malignitetspotensial i urinrør
+D4131; Svulst med klinisk usikkert malignitetspotensial i urinrør
+D4140; Svulst med patologisk anatomisk påvist usikkert malignitetspotensial i urinblære
+D4141; Svulst med klinisk usikkert malignitetspotensial i urinblære
+D4170; Svulst med patologisk anatomisk påvist usikkert malignitetspotensial i annet spesifisert urinveisorgan
+D4171; Svulst med klinisk usikkert malignitetspotensial i annet spesifisert urinveisorgan
+D419;Svulst med usikkert eller ukjent malignitetspotensial i uspesifisert urinveisorgan
+D4200; Svulst med patologisk anatomisk påvist usikkert malignitetspotensial i hjernehinne
+D4201; Svulst med klinisk usikkert malignitetspotensial i hjernehinne
+D4210; Svulst med patologisk anatomisk påvist usikkert malignitetspotensial i ryggmargshinne
+D4211; Svulst med klinisk usikkert malignitetspotensial i ryggmargshinne
+D429;Svulst med usikkert eller ukjent malignitetspotensial med uspesifisert lokalisasjon i hjerne- eller ryggmargshinne
+D4300; Svulst med patologisk anatomisk påvist usikkert malignitetspotensial med supratentoriell lokalisasjon i hjerne
+D4301; Svulst med klinisk usikkert malignitetspotensial med supratentoriell lokalisasjon i hjerne
+D4310; Svulst med patologisk anatomisk påvist usikkert malignitetspotensial med infratentoriell lokalisasjon i hjerne
+D4311; Svulst med klinisk usikkert malignitetspotensial med infratentoriell lokalisasjon i hjerne
+D432;Svulst med usikkert eller ukjent malignitetspotensial med uspesifisert lokalisasjon i hjerne
+D4330; Svulst med patologisk anatomisk påvist usikkert malignitetspotensial i hjernenerve
+D4331; Svulst med klinisk usikkert malignitetspotensial i hjernenerve
+D4340; Svulst med patologisk anatomisk påvist usikkert malignitetspotensial i ryggmarg
+D4341; Svulst med klinisk usikkert malignitetspotensial i ryggmarg
+D4370; Svulst med patologisk anatomisk påvist usikkert malignitetspotensial i annen spesifisert del av sentralnervesystemet
+D4371; Svulst med klinisk usikkert malignitetspotensial i annen spesifisert del av sentralnervesystemet
+D439;Svulst med usikkert eller ukjent malignitetspotensial i uspesifisert del av sentralnervesystemet
+D4400; Svulst med patologisk anatomisk påvist usikkert malignitetspotensial i skjoldbruskkjertel
+D4401; Svulst med klinisk usikkert malignitetspotensial i skjoldbruskkjertel
+D4410; Svulst med patologisk anatomisk påvist usikkert malignitetspotensial i binyre
+D4411; Svulst med klinisk usikkert malignitetspotensial i binyre
+D4420; Svulst med patologisk anatomisk påvist usikkert malignitetspotensial i biskjoldbruskkjertel
+D4421; Svulst med klinisk usikkert malignitetspotensial i biskjoldbruskkjertel
+D4430; Svulst med patologisk anatomisk påvist usikkert malignitetspotensial i hypofyse
+D4431; Svulst med klinisk usikkert malignitetspotensial i hypofyse
+D4440; Svulst med patologisk anatomisk påvist usikkert malignitetspotensial i ductus craniopharyngealis
+D4441; Svulst med klinisk usikkert malignitetspotensial i ductus craniopharyngealis
+D4450; Svulst med patologisk anatomisk påvist usikkert malignitetspotensial i corpus pineale
+D4451; Svulst med klinisk usikkert malignitetspotensial i corpus pineale
+D4460; Svulst med patologisk anatomisk påvist usikkert malignitetspotensial i glomus caroticum
+D4461; Svulst med klinisk usikkert malignitetspotensial i glomus caroticum
+D4470; Svulst med patologisk anatomisk påvist usikkert malignitetspotensial i aortalegeme eller annet paraganglie
+D4471; Svulst med klinisk usikkert malignitetspotensial i aortalegeme eller annet paraganglie
+D4480; Svulst med patologisk anatomisk påvist usikkert malignitetspotensial med affeksjon av multiple endokrine kjertler
+D4481; Svulst med klinisk usikkert malignitetspotensial med affeksjon av multiple endokrine kjertler
+D449;Svulst med usikkert eller ukjent malignitetspotensial i uspesifisert endokrin kjertel
+D45;Polycythaemia vera
+D460;Refraktær anemi angitt som uten ringsideroblaster
+D461;Refraktær anemi med sideroblaster
+D462;Refraktær anemi med økning av blaster [RAEB]
+D464;Uspesifisert refraktær anemi
+D465;Refraktær anemi med dysplasi i flere linjer
+D466;Myelodysplastisk syndrom med isolert del(5q) kromosomdefekt
+D467;Annet spesifisert myelodysplastisk syndrom
+D469;Uspesifisert myelodysplastisk syndrom
+D470;Histiocyttær svulst eller mastcellesvulst med usikkert eller ukjent malignitetspotensial
+D471;Kronisk myeloproliferativ sykdom
+D472;Monoklonal gammopati av usikker betydning
+D473;Essensiell trombocytemi
+D474;Osteomyelofibrose
+D475;Kronisk eosinofil leukemi
+D477;Annen spesifisert svulst med usikkert eller ukjent malignitetspotensial i lymfoid, hematopoetisk eller beslektet vev
+D479;Uspesifisert svulst med usikkert eller ukjent malignitetspotensial i lymfoid, hematopoetisk eller beslektet vev
+D4800; Svulst med patologisk anatomisk påvist usikkert malignitetspotensial i knokkel eller leddbrusk
+D4801; Svulst med klinisk usikkert malignitetspotensial i knokkel eller leddbrusk
+D4810; Svulst med patologisk anatomisk påvist usikkert malignitetspotensial i bindevev eller annet bløtvev
+D4811; Svulst med klinisk usikkert malignitetspotensial i bindevev eller annet bløtvev
+D4820; Svulst med patologisk anatomisk påvist usikkert malignitetspotensial i perifer nerve eller det autonome nervesystem
+D4821; Svulst med klinisk usikkert malignitetspotensial i perifer nerve eller det autonome nervesystem
+D4830; Svulst med patologisk anatomisk påvist usikkert malignitetspotensial i retroperitoneum
+D4831; Svulst med klinisk usikkert malignitetspotensial i retroperitoneum
+D4840; Svulst med patologisk anatomisk påvist usikkert malignitetspotensial i bukhinne
+D4841; Svulst med klinisk usikkert malignitetspotensial i bukhinne
+D4850; Svulst med patologisk anatomisk påvist usikkert malignitetspotensial i hud
+D4851; Svulst med klinisk usikkert malignitetspotensial i hud
+D4860; Svulst med patologisk anatomisk påvist usikkert malignitetspotensial i bryst
+D4861; Svulst med klinisk usikkert malignitetspotensial i bryst
+D4870; Svulst med patologisk anatomisk påvist usikkert malignitetspotensial med annen spesifisert lokalisasjon
+D4871; Svulst med klinisk usikkert malignitetspotensial med annen spesifisert lokalisasjon
+D489;Svulst med usikkert eller ukjent malignitetspotensial med uspesifisert lokalisasjon
+D500;Jernmangelanemi ved kronisk blodtap
+D501;Sideropen dysfagi
+D508;Annen spesifisert jernmangelanemi
+D509;Uspesifisert jernmangelanemi
+D510;Anemi ved B12-vitaminmangel som skyldes mangel på «intrinsic factor»
+D511;Anemi ved B12-vitaminmangel som skyldes selektiv B12-malabsorpsjon med proteinuri
+D512;Anemi som skyldes transkobalamin II-mangel
+D513;Annen diettbetinget anemi med B12-vitaminmangel
+D518;Annen anemi ved B12-vitaminmangel
+D519;Uspesifisert anemi ved B12-vitaminmangel
+D520;Diettbetinget folsyremangelanemi
+D521;Legemiddelutløst folsyremangelanemi
+D528;Annen spesifisert folsyremangelanemi
+D529;Uspesifisert folsyremangelanemi
+D530;Proteinmangelanemi
+D531;Annen megaloblastanemi ikke klassifisert annet sted
+D532;Anemi ved skjørbuk
+D538;Annen spesifisert mangelanemi
+D539;Uspesifisert mangelanemi
+D550;Anemi som skyldes glukose-6-fosfatdehydrogenasemangel
+D551;Anemi som skyldes annen forstyrrelse i glutationmetabolismen
+D552;Anemi som skyldes forstyrrelse i glykolytisk enzym
+D553;Anemi som skyldes forstyrrelse i nukleotidmetabolismen
+D558;Annen spesifisert anemi som skyldes enzymforstyrrelse
+D559;Uspesifisert anemi som skyldes enzymforstyrrelse
+D560;Alfa-talassemi
+D561;Beta-talassemi
+D562;Delta-beta-talassemi
+D563;Talassemianlegg
+D564;Arvelig persistens av føtalt hemoglobin
+D568;Annen spesifisert talassemi
+D569;Uspesifisert talassemi
+D570;Sigdcelleanemi med krise
+D571;Sigdcelleanemi uten krise
+D572;Dobbel heterozygot sigdcellesykdom
+D573;Sigdcelleanlegg
+D578;Annen spesifisert sigdcellesykdom
+D580;Arvelig sfærocytose
+D581;Arvelig elliptocytose
+D582;Annen hemoglobinopati
+D588;Annen spesifisert arvelig hemolytisk anemi
+D589;Uspesifisert arvelig hemolytisk anemi
+D590;Legemiddelutløst autoimmun hemolytisk anemi
+D591;Annen autoimmun hemolytisk anemi
+D592;Legemiddelutløst ikke-autoimmun hemolytisk anemi
+D593;Hemolytisk-uremisk sykdom
+D594;Annen ikke-autoimmun hemolytisk anemi
+D595;Paroksysmal nokturnal hemoglobinuri
+D596;Hemoglobinuri som skyldes hemolyse forårsaket av annen ytre årsak
+D598;Annen spesifisert ervervet hemolytisk anemi
+D599;Uspesifisert ervervet hemolytisk anemi
+D600;Kronisk ervervet isolert aplasi av erytropoetiske celler
+D601;Forbigående ervervet isolert aplasi av erytropoetiske celler
+D608;Annen spesifisert ervervet isolert aplasi av erytropoetiske celler
+D609;Uspesifisert ervervet isolert aplasi av erytropoetiske celler
+D610;Genetisk betinget aplastisk anemi
+D611;Legemiddelutløst aplastisk anemi
+D612;Aplastisk anemi som skyldes annen ytre faktor
+D613;Idiopatisk aplastisk anemi
+D618;Annen spesifisert aplastisk anemi
+D619;Uspesifisert aplastisk anemi
+D62;Akutt posthemoragisk anemi
+D630;Anemi ved neoplastisk sykdom
+D638;Anemi ved annen kronisk sykdom klassifisert annet sted
+D640;Arvelig sideroblastanemi
+D641;Sekundær sideroblastanemi som skyldes sykdom
+D642;Sekundær sideroblastanemi som skyldes legemiddel eller toksin
+D643;Annen sideroblastanemi
+D644;Medfødt dyserytropoetisk anemi
+D648;Annen spesifisert anemi
+D649;Uspesifisert anemi
+D65;Disseminert intravaskulær koagulasjon
+D66;Arvelig mangel på koagulasjonsfaktor VIII
+D67;Arvelig mangel på koagulasjonsfaktor IX
+D680;Von Willebrands sykdom
+D681;Arvelig mangel på koagulasjonsfaktor XI
+D682;Arvelig mangel på annen koagulasjonsfaktor
+D683;Blødning som skyldes sirkulerende antikoagulant
+D684;Ervervet mangel på koagulasjonsfaktor
+D685;Primær trombofili
+D686;Annen trombofili
+D688;Annen spesifisert koagulasjonsforstyrrelse
+D689;Uspesifisert koagulasjonsforstyrrelse
+D690;Allergisk purpura
+D691;Kvalitativ blodplatedefekt
+D692;Annen ikke-trombocytopenisk purpura
+D693;Immunologisk trombocytopeni
+D694;Annen primær trombocytopeni
+D695;Sekundær trombocytopeni
+D696;Uspesifisert trombocytopeni
+D698;Annen spesifisert blødningstilstand
+D699;Uspesifisert blødningstilstand
+D70;Agranulocytose eller nøytropeni
+D71;Funksjonell forstyrrelse i polymorfonukleære nøytrofile blodceller
+D720;Genetisk anomali i leukocytter
+D721;Eosinofili
+D728;Annen spesifisert tilstand i hvite blodceller
+D729;Uspesifisert tilstand i hvite blodceller
+D730;Hyposplenisme
+D731;Hypersplenisme
+D732;Kronisk kongestiv splenomegali
+D733;Abscess i milt
+D734;Cyste i milt
+D735;Infarkt i milt
+D738;Annen spesifisert sykdom i milt
+D739;Uspesifisert sykdom i milt
+D740;Medfødt methemoglobinemi
+D748;Annen spesifisert methemoglobinemi
+D749;Uspesifisert methemoglobinemi
+D750;Familiær erytrocytose
+D751;Sekundær polycytemi
+D758;Annen spesifisert sykdom i blod eller bloddannende organ
+D759;Uspesifisert sykdom i blod eller bloddannende organ
+D761;Hemofagocyttær lymfohistiocytose
+D762;Hemofagocyttært syndrom i tilknytning til infeksjon
+D763;Annet histiocytosesyndrom
+D77;Annen forstyrrelse i blod eller bloddannende organ ved sykdom klassifisert annet sted
+D800;Arvelig hypogammaglobulinemi
+D801;Ikke-familiær hypogammaglobulinemi
+D802;Selektiv mangel på immunglobulin A
+D803;Selektiv mangel på subklasse av immunglobulin G
+D804;Selektiv mangel på immunglobulin M
+D805;Immunsvikt med økt immunglobulin M
+D806;Antistoffmangel med nesten-normale immunglobuliner eller med hyperimmunoglobulinemi
+D807;Forbigående hypogammaglobulinemi i spedbarnsalder
+D808;Annen spesifisert immunsvikt med overveiende antistoffmangel
+D809;Uspesifisert immunsvikt med overveiende antistoffmangel
+D810;Alvorlig kombinert immunsvikt [SCID] med retikulær dysgenesi
+D811;Alvorlig kombinert immunsvikt [SCID] med lavt T- og B-celleantall
+D812;Alvorlig kombinert immunsvikt med lavt eller normalt B-celleantall
+D813;Adenosindeaminase-mangel
+D814;Nezelofs syndrom
+D815;Purinnukleosidfosforylase-mangel
+D816;Mangel på vevsforlikelighetsantigen (HLA) klasse I
+D817;Mangel på vevsforlikelighetsantigen (HLA) klasse II
+D818;Annen spesifisert kombinert immunsvikt
+D819;Uspesifisert kombinert immunsvikt
+D820;Wiskott-Aldrichs syndrom
+D821;Di Georges syndrom
+D822;Kortlemmethet med dvergvekst
+D823;Immunsvikt som følge av arvelig defekt respons på Epstein-Barr-virus
+D824;Hyperimmunglobulin E-syndrom
+D828;Immunsvikt i tilknytning til annen spesifisert større defekt
+D829;Immunsvikt i tilknytning til uspesifisert større defekt
+D830;Vanlig variabel immunsvikt med overveiende abnormitet i B-celleantall og –funksjon
+D831;Vanlig variabel immunsvikt med overveiende forstyrrelse i immunregulerende T-celler
+D832;Vanlig variabel immunsvikt med autoantistoffer til B- eller T-celler
+D838;Annen spesifisert vanlig variabel immunsvikt
+D839;Uspesifisert vanlig variabel immunsvikt
+D840;Defekt i lymfocytt funksjonsassosiert antigen 1
+D841;Defekt i komplementsystemet
+D848;Annen spesifisert immunsvikt
+D849;Uspesifisert immunsvikt
+D860;Sarkoidose i lunge
+D861;Sarkoidose i lymfeknute
+D862;Sarkoidose i lunge med sarkoidose i lymfeknute
+D863;Sarkoidose i hud
+D868;Sarkoidose med annen eller kombinert lokalisasjon
+D869;Uspesifisert sarkoidose
+D890;Polyklonal hypergammaglobulinemi
+D891;Kryoglobulinemi
+D892;Uspesifisert hypergammaglobulinemi
+D893;Immunrekonstitusjonssyndrom
+D898;Annen spesifisert tilstand som angår immunsystemet, ikke klassifisert annet sted
+D899;Uspesifisert tilstand som angår immunsystemet

@@ -1,0 +1,38 @@
+[conquest_aria]
+root_dir = ""
+
+[conquest_aria.sql]
+uri = ""
+
+[conquest_aria.dicom]
+aet = ""
+server = ""
+port = None
+
+[conquest_krest]
+root_dir = ""
+[conquest_krest.sql]
+uri = ""
+
+[conquest_krest.dicom]
+aet = ""
+server = ""
+port = None
+
+[aria]
+[aria.sql]
+uri = ""
+
+[aria.dicom]
+aet = ""
+port = None
+server = ""
+
+[log_db]
+uri = ""
+file = ""
+
+[krest]
+name = "KREST-XXX"
+[krest.dicom]
+aet = "GW_XXX"

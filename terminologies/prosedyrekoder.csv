@@ -1,0 +1,38 @@
+WEGT00;Kontroll av strålefelt, statisk
+WEGT05;Kontroll av strålefelt, dynamisk
+WEGT10;Kontroll av pasientens anatomi før behandling, statisk
+WEGT15;Kontroll av kilde/applikatorposisjon ved brakyterapi
+WEGT20;Dosimetrisk kontroll av pasientdoser
+WEGX07;Simulering av strålefelt før behandling på simulator eller behandlingsapparat uten CT doseplan
+WEGX11;CT-basert doseplan uten simulator med automatisk generert målvolum eller uten inntegning av målvolum, ett målvolum
+WEGX12;CT-basert doseplan uten simulator med automatisk generert målvolum eller uten inntegning av målvolum, to målvolum
+WEGX13;CT-basert doseplan uten simulator med automatisk generert målvolum eller uten inntegning av målvolum, minst tre målvolum
+WEGX21;CT-basert doseplan med ett målvolum basert på manuell inntegning
+WEGX22;CT-basert doseplan med to målvolum basert på manuell inntegning
+WEGX23;CT-basert doseplan med minst tre målvolum basert på manuell inntegning
+WEGX31;Doseplan for IMRT/VMAT med ett målvolum basert på manuell inntegning
+WEGX32;Doseplan for IMRT/VMAT med to målvolum basert på manuell inntegning
+WEGX33;Doseplan for IMRT/VMAT med minst tre målvolum basert på manuell inntegning
+WEGX34;4D-Doseplan med/uten IMRT/VMAT
+WEGX40;Doseplan for spesialopplegg IKA
+WEGX45;Doseplanlegging for brakyterapi
+WEGX50;Implantasjon av markør for lokalisasjon av strålefelt
+WEGX60;MR-basert doseplan, hode
+WEGX61;MR-basert doseplan, hals
+WEGX62;MR-basert doseplan, bekken
+WEGX70;NM Tumor dosimetri
+WEGX71;NM Dosimetri MTA
+WEGX80;Doseplan for radionuklidterapi mht. målvolum
+WEGX81;Doseplan for radionuklidterapi mht. normalvev
+WEOA00;Ekstern stråleterapi, høyenergetisk (MV)
+WEOA05;Ekstern stråleterapi, lavenergetisk (kV)
+WEOA10;Ekstern stråleterapi, helkropp
+WEOA15;Ekstern stråleterapi med spesialapparat
+WEOA20;Adaptiv strålebehandling med replanlegging basert på anatomiske endringer
+WEOB00;Brakyterapi, applikatorinnsetting
+WEOB05;Brakyterapi med høy doserate (HDR)
+WEOB10;Brakyterapi med pulset doserate (PDR)
+WEOB15;Brakyterapi med lav doserate (LDR)
+WEOB20;Brakyterapi, intravaskulær (IVBT)
+WEOC00;Protonterapi
+WEOC10;Karbonterapi
