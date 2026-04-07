@@ -4,6 +4,8 @@ Dette prosjektet automatiserer eksport av stråleterapi-relaterte DICOM-data fra
 
 Scriptet finner behandlingsplaner opprettet etter en gitt dato, bygger en komplett DICOM-studiestruktur (RTPLAN → RTDOSE → RTSTRUCT → CT), laster ned manglende objekter til Conquest, og sender deretter studien videre til definerte mottakere.
 
+En overordnet beskrivelse er gitt i figuren under, eksemplifisert ved Helse Bergen:
+![Overordnet beskrivelse av eksportplattformen for Helse Bergen](resources/eksportplattform_hbe.png)
 
 # Formål
 
