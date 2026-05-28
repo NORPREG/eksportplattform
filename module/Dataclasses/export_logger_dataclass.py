@@ -1,135 +1,70 @@
 from datetime import datetime
-from typing import Optional, List
+from enum import Enum
+from typing import Optional
 
-from sqlmodel import SQLModel, Field, Relationship
-
-# sent_status: Not started; Identified; Aria Exported; KREST Exported
-
-# -------------------------
-# Patient
-# -------------------------
-
-class Patient(SQLModel, table=True):
-    patient_ser: Optional[int] = Field(default=None, primary_key=True)
-
-    courses: List["Course"] = Relationship(back_populates="patient")
+from sqlmodel import Field, Relationship, SQLModel
+from sqlalchemy.dialects.mssql import DATETIME2
+from sqlalchemy import Column, DateTime, ForeignKey, Integer, String
 
 
-# -------------------------
-# Course
-# -------------------------
+class Modality(str, Enum):
+    RTDOSE = "RTDOSE"
+    RTSTRUCT = "RTSTRUCT"
+    RTRECORD = "RTRECORD"
+    RTPLAN = "RTPLAN"
+    CT = "CT"
+    CBCT = "CBCT"
+    MR = "MR"
+
+class TypeUid(str, Enum):
+    SOP_INSTANCE = "SOP_INSTANCE"
+    SERIES_INSTANCE = "SERIES_INSTANCE"
+    STUDY_INSTANCE = "STUDY_INSTANCE"
 
 class Course(SQLModel, table=True):
-    course_ser: Optional[int] = Field(default=None, primary_key=True)
+    __tablename__ = "Course"
 
-    patient_ser: int = Field(foreign_key="patient.patient_ser")
-    patient: Optional[Patient] = Relationship(back_populates="courses")
+    course_id: Optional[int] = Field(default=None, sa_column=Column("CourseId", Integer, primary_key=True))
+    patient_ser: str = Field(sa_column=Column("PatientSer"))
+    sent_dt: datetime = Field(default_factory=datetime.utcnow, sa_column=Column("SentDt", DATETIME2))
 
-    rtplans: List["RTPlan"] = Relationship(back_populates="course")
-    nprs: List["NPR"] = Relationship(back_populates="course")
+    rtplans: list["RTPlan"] = Relationship(back_populates="course")
 
-
-# -------------------------
-# RTPLAN
-# -------------------------
 
 class RTPlan(SQLModel, table=True):
-    id: Optional[int] = Field(default=None, primary_key=True)
+    __tablename__ = "RTPlan"
 
-    course_ser: int = Field(foreign_key="course.course_ser")
+    rtplan_id: Optional[int] = Field(sa_column=Column("RtPlanId", Integer, primary_key=True))
+    course_id: int = Field(sa_column=Column("CourseId", Integer, ForeignKey("Course.CourseId")))
+
+    plan_sop_uid: str = Field(sa_column=Column("PlanSopUid"))
+    plan_label: Optional[str] = Field(default=None, sa_column=Column("PlanLabel"))
+
     course: Optional[Course] = Relationship(back_populates="rtplans")
 
-    sop_instance_uid: str = Field(unique=True, index=True)
-    series_instance_uid: str = Field(unique=True, index=True)
-
-    sent_dt: datetime
-    sent_status: str
-
-    file_dt: datetime
-
-    apprec_code: Optional[str] = None
-    apprec_text: Optional[str] = None
-
-    rtrecords: List["RTRecord"] = Relationship(back_populates="rtplan")
-    rtstructs: List["RTStruct"] = Relationship(back_populates="rtplan")
-    rtdoses: List["RTDose"] = Relationship(back_populates="rtplan")
-    cts: List["CT"] = Relationship(back_populates="rtplan")
+    dicom_objects: list["DicomObject"] = Relationship(
+        back_populates="rtplan"
+    )
 
 
-# -------------------------
-# RTRECORD
-# -------------------------
+class DicomObject(SQLModel, table=True):
+    __tablename__ = "DicomObject"
 
-class RTRecord(SQLModel, table=True):
-    id: Optional[int] = Field(default=None, primary_key=True)
+    dicom_object_id: Optional[int] = Field(sa_column=Column("DicomObjectId", Integer, primary_key=True))
 
-    rtplan_id: int = Field(foreign_key="rtplan.id")
-    rtplan: Optional[RTPlan] = Relationship(back_populates="rtrecords")
+    rtplan_id: int = Field(
+        sa_column=Column("RtPlanId", Integer, ForeignKey("RTPlan.RtPlanId"))
+    )
 
-    sop_instance_uid: str = Field(unique=True, index=True)
-    series_instance_uid: str = Field(unique=True, index=True)
+    reference_uid: Optional[str] = Field(default=None, sa_column=Column("ReferenceUid"))
+    type_uid: Optional[str] = Field(default=None, sa_column=Column("TypeUid"))
 
-    file_dt: datetime
+    modality: Modality = Field(sa_column=Column("Modality")) 
 
+    bytes_stored: Optional[int] = Field(default=None, sa_column=Column("BytesStored"))
 
-# -------------------------
-# RTSTRUCT
-# -------------------------
+    created_dt: datetime = Field(default_factory=datetime.utcnow, sa_column=Column("CreatedDt", DATETIME2))
 
-class RTStruct(SQLModel, table=True):
-    id: Optional[int] = Field(default=None, primary_key=True)
-
-    rtplan_id: int = Field(foreign_key="rtplan.id")
-    rtplan: Optional[RTPlan] = Relationship(back_populates="rtstructs")
-
-    sop_instance_uid: str = Field(unique=True, index=True)
-    series_instance_uid: str = Field(unique=True, index=True)
-
-    file_dt: datetime
-
-
-# -------------------------
-# RTDOSE
-# -------------------------
-
-class RTDose(SQLModel, table=True):
-    id: Optional[int] = Field(default=None, primary_key=True)
-
-    rtplan_id: int = Field(foreign_key="rtplan.id")
-    rtplan: Optional[RTPlan] = Relationship(back_populates="rtdoses")
-
-    sop_instance_uid: str = Field(unique=True, index=True)
-    series_instance_uid: str = Field(unique=True, index=True)
-
-    dose_type: str
-    file_dt: datetime
-
-
-# -------------------------
-# CT
-# -------------------------
-
-class CT(SQLModel, table=True):
-    id: Optional[int] = Field(default=None, primary_key=True)
-
-    rtplan_id: int = Field(foreign_key="rtplan.id")
-    rtplan: Optional[RTPlan] = Relationship(back_populates="cts")
-
-    series_instance_uid: str = Field(unique=True, index=True)
-
-    files_nb: Optional[int] = None
-    file_dt: datetime
-
-
-# -------------------------
-# NPR
-# -------------------------
-
-class NPR(SQLModel, table=True):
-    id: Optional[int] = Field(default=None, primary_key=True)
-
-    course_ser: int = Field(foreign_key="course.course_ser")
-    course: Optional[Course] = Relationship(back_populates="nprs")
-
-    sent_status: str
-    sent_dt: Optional[datetime]
+    rtplan: Optional[RTPlan] = Relationship(
+        back_populates="dicom_objects"
+    )

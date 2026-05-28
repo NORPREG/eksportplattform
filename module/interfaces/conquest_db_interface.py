@@ -153,3 +153,23 @@ def check_exists_series(engine, uid):
 			return True
 	
 	return False
+
+def get_sop_filenames(engine, uid):
+	with Session(engine) as session:
+		statement = select(DICOMImages).where(DICOMImages.SOPInstanceUID == uid)
+		result = session.exec(statement)
+		try:
+			return [result.one().ObjectFile]
+		except:
+			return [None]
+
+def get_series_filenames(engine, uid):
+	files = []
+
+	with Session(engine) as session:
+		statement = select(DICOMImages).where(DICOMImages.SeriesInst == uid)
+		result = session.exec(statement)
+		for k in result.all():
+			files.append(k.ObjectFile)
+
+	return files

@@ -25,5 +25,4 @@ class ConfigDataclass(BaseModel):
     conquest_krest: Pacs
     aria: Pacs
     log_db: BaseSql
-    logger: BaseSql "D:/Brokers/export.log"
     krest: Krest

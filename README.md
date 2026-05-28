@@ -184,7 +184,9 @@ from config import Config
 config = Config()
 ```
 
-Se `config/test_config.toml` for eksempel.
+Se `config/config_test.toml` for eksempel.
+
+Merk: Produksjonskonfigurasjon leses fra stien definert i `module/config.py` (standard: `D:/Config/eksportplattform.toml`).
 
 ---
 
@@ -213,5 +215,26 @@ python eksportplattform.py
 Datoen som brukes til å finne nye planer er:
 
 ```python
-dt = datetime(2025, 1, 1)
+dt = datetime(2026, 1, 1)
 ```
+
+# Avhengigheter
+
+Installer med:
+
+```
+pip install -r requirements.txt
+```
+
+Hovedavhengigheter:
+
+| Pakke      | Brukes til                          |
+| ---------- | ----------------------------------- |
+| sqlmodel   | ORM mot eksportdatabase og Conquest |
+| sqlalchemy | Database-engine og MSSQL-dialekt    |
+| pyodbc     | MSSQL-driver                        |
+| pydicom    | Lesing av DICOM-filer               |
+| pydantic   | Datavalidering (ARIA-modeller)      |
+| numpy      | NPR-databehandling                  |
+
+I tillegg kreves Python ≥ 3.11 (for `tomllib`).

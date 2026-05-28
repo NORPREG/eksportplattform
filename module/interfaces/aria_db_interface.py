@@ -43,6 +43,7 @@ def get_plan_set(from_dt: datetime):
 		if not rtrecord.PatientSer in plan_set:
 			plan_set[rtrecord.PatientSer] = {
 				"PatientID": None,
+				"PatientSer": rtrecord.PatientSer,
 				"PlanSet": dict(),
 			}
 		

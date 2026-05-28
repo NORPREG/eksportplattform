@@ -1,5 +1,5 @@
 from pydantic import PlainSerializer, BeforeValidator
-from sqlalchemy import String, Column
+from sqlalchemy import String, Column, Integer
 from typing import List, Optional
 from typing_extensions import Annotated
 from datetime import datetime
@@ -70,6 +70,7 @@ class DICOMImages(SQLModel, table=True):
 	AcquisitionTime: DICOMTime = Field(sa_column=Column("AcqTime", String))
 	AcquisitionNumber: str = Field(sa_column=Column("AcqNumber", String))
 	SliceLocation: str = Field(sa_column=Column("SliceLocat", String))
+	BitsStored: int = Field(sa_column=Column("BitsStored", Integer))
 	Rows: int = Field(sa_column=Column("QRows", String))
 	Columns: int = Field(sa_column=Column("QColumns", String))
 	ImageType: str

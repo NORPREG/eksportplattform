@@ -7,7 +7,7 @@ uri = ""
 [conquest_aria.dicom]
 aet = ""
 server = ""
-port = None
+port = 0
 
 [conquest_krest]
 root_dir = ""
@@ -17,15 +17,15 @@ uri = ""
 [conquest_krest.dicom]
 aet = ""
 server = ""
-port = None
+port = 0
 
 [aria]
 [aria.sql]
-uri = ""
+uri = "r"
 
 [aria.dicom]
 aet = ""
-port = None
+port = 0
 server = ""
 
 [log_db]
@@ -33,6 +33,9 @@ uri = ""
 file = ""
 
 [krest]
-name = "KREST-XXX"
+name = ""
+
 [krest.dicom]
-aet = "GW_XXX"
+aet = ""
+server = ""
+port = 0
