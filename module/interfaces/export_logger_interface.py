@@ -76,7 +76,7 @@ class LogDatabase:
 			else:
 				return course.sent_dt
 
-	def add_patient(self, course: dict):
+	def add_patient(self, conquest_aria_engine, course: dict):
 		"""Add patient to the logger database from plan_set"""
 
 		# Add Course object

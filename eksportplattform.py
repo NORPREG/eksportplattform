@@ -155,4 +155,4 @@ for patient_ser in plan_set:
 	conquest_dicom_interface.c_move_to_krest_hus(plan_set[patient_ser])
 
 	if not sent_dt:
-		log_database.add_patient(plan_set[patient_ser])
+		log_database.add_patient(conquest_aria_engine, plan_set[patient_ser])
