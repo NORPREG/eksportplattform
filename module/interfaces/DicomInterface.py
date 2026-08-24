@@ -55,10 +55,10 @@ class DICOMInterface:
    def add_UIDs(self) -> None:
       self.ds.SpecificCharacterSet = "ISO_IR 192"
       self.ds.SOPClassUID = self.enhancedSR
-      self.ds.SOPInstanceUID = generate_uid(config.rtmodel.dicom_root_uid)
+      self.ds.SOPInstanceUID = generate_uid(config.krest.dicom_root_uid)
       self.ds.Modality = "SR"
-      self.ds.StudyInstanceUID = generate_uid(config.rtmodel.dicom_root_uid)
-      self.ds.SeriesInstanceUID = generate_uid(config.rtmodel.dicom_root_uid)
+      self.ds.StudyInstanceUID = generate_uid(config.krest.dicom_root_uid)
+      self.ds.SeriesInstanceUID = generate_uid(config.krest.dicom_root_uid)
 
    def add_patient(self, patient_id: str, patient_name: str) -> None:
       self.ds.PatientName = patient_name
