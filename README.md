@@ -2,10 +2,10 @@
 
 Dette prosjektet automatiserer eksport av stråleterapi-relaterte DICOM-data fra **ARIA** til **Conquest PACS**, og videre til eksterne mottakere (KREST / NORPREG).
 
-Scriptet finner behandlingsplaner opprettet etter en gitt dato, bygger en komplett DICOM-studiestruktur (RTPLAN → RTDOSE → RTSTRUCT → CT), laster ned manglende objekter til Conquest, og sender deretter studien videre til definerte mottakere.
+Scriptet finner behandlingsplaner opprettet etter en gitt dato, bygger en komplett DICOM-studiestruktur (RTPLAN → RTDOSE → RTSTRUCT → CT), overfører manglende objekter via Dicom Query / Retrieve fra Aria DCM til Conquest, og sender deretter studien videre til KREST-XXX / NORPREG.
 
-En overordnet beskrivelse er gitt i figuren under, eksemplifisert ved Helse Bergen:
-![Overordnet beskrivelse av eksportplattformen for Helse Bergen](resources/eksportplattform_hbe.png)
+En overordnet beskrivelse er gitt i figuren under:
+![Overordnet beskrivelse av eksportplattformen for Helse Bergen](resources/eksportplattform.png)
 
 # Formål
 
@@ -13,8 +13,9 @@ Systemet sikrer at:
 
 * komplette stråleterapiplaner eksporteres
 * alle nødvendige DICOM-objekter følger med
-* eksporten kan spores og reproduseres
-* Senere vil også NPR-rapporten hentes ut fra SMB og pakkes inn i DICOM SR
+* eksporten kan spores og reproduseres (MSSQL).
+* DICOM Apprec mottas via DICOM SR på pasientnivå og evt. feil logges i databasen (MSSQL). Se mer detaljer om hvordan disse lages i [NORPREG-repoet](github.com/NORPREG/NORPREG).
+* Senere vil også NPR-rapporten hentes ut fra SMB og pakkes inn i DICOM SR. Per i dag sendes den separat over Filsluse.
 
 ---
 
@@ -24,20 +25,19 @@ Arbeidsflyten er:
 
 1. Hent alle RT plan-sett fra ARIA etter en gitt dato
 2. For hver pasient:
-
-   * Finn RT Plan og tilhørende RT Dose via ARIA DB integrasjon. Behøver en SQL-prosedyre for dette.
+   * Finn RT Plan og tilhørende RT Dose via ARIA DB integrasjon. En [Stored Procedure er laget for dette formålet](resources/blp_GetTxRecordsProtonToExport.sql).
    * Finn referert RT Structure Set fra RT Plan-filen
    * Finn CT-serier referert fra Structure Set
-3. Last ned DICOM-objekter fra ARIA til lokal Conquest via C-MOVE
+3. Last ned DICOM-objekter fra ARIA til lokal Conquest via C-MOVE. Dette gjøres i [Aria Dicom-grensesnittet](module/interfaces/aria_dicom_interface.py).
 4. Send komplett datasett videre til:
-   * Intern Conquest-node (nødvendig for port-tøys)
-   * KREST-HUS
-5. Logg eksporterte pasienter i en eksportdatabase (MSSQL)
+   * Intern Conquest-node (denne var nødvendig for å sørge for to lyttende porter, anbefaler å sette opp intern port mot OIS som 314XX -- samme som mot KREST-XXX.
+   * KREST-XXX
+5. Logg eksporterte pasienter i en eksportdatabase (MSSQL). [Se LogDatabase-grensesnittet her](module/interfaces/export_logger_interface.py).
 
 Dette sikrer at komplette behandlingsdatasett blir eksportert konsistent.
 
 TODO: Legg til NPR i eksporten
-TODO: RT Treatment Record eksport kræsjer pga. bug i Aria. Få dette fikset.
+TODO: RT Treatment Record eksport kræsjer pga. bug i Aria (når det er ° i FieldId...).
 
 ---
 
@@ -165,6 +165,7 @@ Conquest (Medfys-2) → KREST-HUS
 
 Merk at det her benyttes to Conquest-instanser. Det er fordi ulike port-rekkevidder måtte benyttes mot Aria (via "medfys-1") og KREST-HUS (via "medfys-2").
 Derfor må dataene først flyttes fra "medfys-1" til "medfys-2" før de kan overføres til KREST-HUS, da via en C-MOVE.
+# TODO: Ved en senere endring i Aria DCM-tjenesten kan Conquest-noden rekonfigureres så den snakker med både Aria og KREST.
 
 Dette gjøres via:
 
@@ -212,11 +213,8 @@ Scriptet kan kjøres direkte:
 python eksportplattform.py
 ```
 
-Datoen som brukes til å finne nye planer er:
-
-```python
-dt = datetime(2026, 1, 1)
-```
+Programmet er hardkodet til å søke etter pasienter fra 2026-01-01, dette kan naturligvis endres ved behov eller settes som program-argument.
+Denne settes så opp i Windows Task Scheduler til å kjøre hver kveld.
 
 # Avhengigheter
 

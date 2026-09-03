@@ -39,6 +39,7 @@ class RTPlan(SQLModel, table=True):
 
     plan_sop_uid: str = Field(sa_column=Column("PlanSopUid"))
     plan_label: Optional[str] = Field(default=None, sa_column=Column("PlanLabel"))
+    apprec: Optional[str] = Field(default=None, sa_column=Column("Apprec"))
 
     course: Optional[Course] = Relationship(back_populates="rtplans")
 
