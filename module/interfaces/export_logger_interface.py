@@ -116,3 +116,15 @@ class LogDatabase:
 		with Session(self.engine) as session:
 			session.add(db_course)
 			session.commit()
+
+	def add_apprecs(self, apprecs: list[dict]) -> list[dict]:
+		if not apprecs:
+			return []
+
+		for apprec in apprecs:
+			logger.warning(
+				"Parsed apprec for study_uid=%s, but persistence is pending database schema changes",
+				apprec.get("study_uid"),
+			)
+
+		return apprecs

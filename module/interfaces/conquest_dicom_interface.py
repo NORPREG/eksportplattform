@@ -17,6 +17,8 @@ config = Config()
 
 # debug_logger()
 
+conquest_krest_engine = conquest_db_interface.create_engine(config.conquest_krest.sql.uri)
+
 def c_move_to_krest_hus(plan_set):
 	patient_id = plan_set.get("PatientID")
 	patient_ser = plan_set.get("PatientSer")
@@ -59,7 +61,7 @@ def c_move_to_krest_hus(plan_set):
 
 	association_medfys2.release()
 
-def c_move_to_medfys2(engine, plan_set):
+def c_move_to_medfys2(plan_set):
 	this_ae = AE(ae_title="PYTHON")
 	this_ae.add_requested_context(PatientRootQueryRetrieveInformationModelMove)
 
@@ -85,11 +87,11 @@ def c_move_to_medfys2(engine, plan_set):
 				if modality == "CT":
 					ds.QueryRetrieveLevel = "SERIES"
 					ds.SeriesInstanceUID = uid
-					exists = conquest_db_interface.check_exists_series(engine, uid)
+					exists = conquest_db_interface.check_exists_series(uid, conquest_krest_engine)
 				else:
 					ds.QueryRetrieveLevel = "IMAGE"
 					ds.SOPInstanceUID = uid
-					exists = conquest_db_interface.check_exists_sop(engine, uid)
+					exists = conquest_db_interface.check_exists_sop(uid, conquest_krest_engine)
 
 				if not exists:
 					responses = assoc.send_c_move(

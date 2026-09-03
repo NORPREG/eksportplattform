@@ -1,6 +1,7 @@
 import tempfile
 import datetime
 import pydicom
+from typing import Optional
 
 from pydicom.filereader import dcmread
 from pydicom.sr.codedict import codes
@@ -20,7 +21,9 @@ class DICOMSR:
 
    def setup(self, filename: str = None) -> None:
 
-      if not self.ds:
+      if filename:
+         self.ds = pydicom.dcmread(filename)
+      elif not self.ds:
          suffix = ".dcm"
          filename_little_endian = tempfile.NamedTemporaryFile(suffix=suffix).name
 
@@ -32,9 +35,6 @@ class DICOMSR:
          self.ds = pydicom.FileDataset(filename_little_endian, {}, file_meta=file_meta, preamble=b"\0" * 128)
          self.ds.is_little_endian = True
          self.ds.is_implicit_VR = False
-
-      else:
-         self.ds = pydicom.dcmread(filename)
 
    def addUIDs(self, studyUID: str) -> None:
       self.ds.SpecificCharacterSet = "ISO_IR 192"
@@ -85,12 +85,48 @@ class DICOMSR:
    def saveFile(self, filename: str) -> None:
       self.ds.save_as(filename, write_like_original=False)
 
-   def getXML(self) -> str:
-      self.xml_doc = sr.ContentSequence[0].TextValue
-      return self.xml_doc
+   def getXML(self) -> Optional[str]:
+      return self.get_text_value()
 
-def makeDataset(parentUID: str, patientID: str, patientName: str, XMLString: str) -> DICOMInterface:
-   basicSR = DICOMInterface()
+   def get_text_value(self) -> Optional[str]:
+      if not self.ds:
+         return None
+
+      preferred_text = self._find_text_value(
+         getattr(self.ds, "ContentSequence", []),
+         preferred_code=self.externalDataSourceCode,
+      )
+      if preferred_text is not None:
+         return preferred_text
+
+      return self._find_text_value(getattr(self.ds, "ContentSequence", []))
+
+   @classmethod
+   def from_file(cls, filename: str) -> "DICOMSR":
+      instance = cls()
+      instance.setup(filename)
+      return instance
+
+   def _find_text_value(self, content_sequence, preferred_code: str = None) -> Optional[str]:
+      for item in content_sequence or []:
+         concept_sequence = getattr(item, "ConceptNameCodeSequence", [])
+         concept_value = None
+         if concept_sequence:
+            concept_value = getattr(concept_sequence[0], "CodeValue", None)
+
+         if getattr(item, "ValueType", None) == "TEXT":
+            text_value = getattr(item, "TextValue", None)
+            if text_value and (preferred_code is None or concept_value == preferred_code):
+               return text_value
+
+         nested_result = self._find_text_value(getattr(item, "ContentSequence", []), preferred_code)
+         if nested_result is not None:
+            return nested_result
+
+      return None
+
+def makeDataset(parentUID: str, patientID: str, patientName: str, XMLString: str) -> DICOMSR:
+   basicSR = DICOMSR()
    basicSR.addUIDs(parentUID)
    basicSR.addPatient(patientID=patientID, patientName=patientName)
    basicSR.addDatetimes()

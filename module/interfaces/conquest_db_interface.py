@@ -22,12 +22,14 @@ config = Config()
 
 logger = logging.getLogger(__name__ + f" (config.HF)")
 
+conquest_aria_engine = create_engine(config.conquest_aria.sql.uri)
+
 # Conquest SQL Interface | Datamodel
 
-def get_patient_ids(engine):
+def get_patient_ids():
 	patient_ids = list()
 
-	with Session(engine) as session:
+	with Session(conquest_aria_engine) as session:
 		statement = select(DICOMPatients)
 		results = session.exec(statement).all()
 
@@ -36,11 +38,11 @@ def get_patient_ids(engine):
 
 	return patient_ids
 
-def check_rtdose_beam_or_plansum(engine, rtdose_series_uid_list):
+def check_rtdose_beam_or_plansum(rtdose_series_uid_list):
 	rtdose_files = list()
 	rtdose_output = list()
 
-	with Session(engine) as session:
+	with Session(conquest_aria_engine) as session:
 		for rtdose_series_uid in rtdose_series_uid_list:
 			statement = select(DICOMImages).where(DICOMImages.SeriesInst == rtdose_series_uid)
 			results = session.exec(statement).all()
@@ -61,8 +63,8 @@ def check_rtdose_beam_or_plansum(engine, rtdose_series_uid_list):
 
 	return rtdose_output
 
-def get_rt_struct_uid(engine, plan_sop_uid):
-	with Session(engine) as session:
+def get_rt_struct_uid(plan_sop_uid):
+	with Session(conquest_aria_engine) as session:
 		statement = select(DICOMImages).where(DICOMImages.SOPInstanceUID == plan_sop_uid)
 		result = session.exec(statement)
 		try:
@@ -82,8 +84,8 @@ def get_rt_struct_uid(engine, plan_sop_uid):
 	return structure_sets, ds.get("RTPlanLabel")
 
 
-def get_patient_id_from_plan_sop_uid(engine, plan_sop_uid: str) -> str:
-	with Session(engine) as session:
+def get_patient_id_from_plan_sop_uid(plan_sop_uid: str) -> str:
+	with Session(conquest_aria_engine) as session:
 		statement = select(DICOMImages).where(DICOMImages.SOPInstanceUID == plan_sop_uid)
 		result = session.exec(statement).all()
 
@@ -93,8 +95,8 @@ def get_patient_id_from_plan_sop_uid(engine, plan_sop_uid: str) -> str:
 		return result[0].ImagePat
 
 
-def find_referenced_ct_series(engine, rtstruct_instance_uid):
-	with Session(engine) as session:
+def find_referenced_ct_series(rtstruct_instance_uid):
+	with Session(conquest_aria_engine) as session:
 		statement = select(DICOMImages).where(DICOMImages.SOPInstanceUID == rtstruct_instance_uid)
 		result = session.exec(statement)
 		try:
@@ -116,8 +118,8 @@ def find_referenced_ct_series(engine, rtstruct_instance_uid):
 
 	return ct_series_uid
 
-def find_referenced_plan_uid_from_rt_dose_sql(engine, rt_dose_uid):
-	with Session(engine) as session:
+def find_referenced_plan_uid_from_rt_dose_sql(rt_dose_uid):
+	with Session(conquest_aria_engine) as session:
 		statement = select(DICOMImages).where(DICOMImages.SeriesInst == rt_dose_uid)
 		result = session.exec(statement)
 		try:
@@ -136,7 +138,7 @@ def find_referenced_plan_uid_from_rt_dose_sql(engine, rt_dose_uid):
 
 	return plan_uid
 
-def check_exists_sop(engine, uid):
+def check_exists_sop(uid, engine=conquest_aria_engine):
 	with Session(engine) as session:
 		statement = select(DICOMImages).where(DICOMImages.SOPInstanceUID == uid)
 		result = session.exec(statement)
@@ -145,7 +147,7 @@ def check_exists_sop(engine, uid):
 	
 	return False
 
-def check_exists_series(engine, uid):	
+def check_exists_series(uid, engine=conquest_aria_engine):	
 	with Session(engine) as session:
 		statement = select(DICOMSeries).where(DICOMSeries.SeriesInstanceUID == uid)
 		result = session.exec(statement)
@@ -154,7 +156,7 @@ def check_exists_series(engine, uid):
 	
 	return False
 
-def get_sop_filenames(engine, uid):
+def get_sop_filenames(uid, engine=conquest_aria_engine):
 	with Session(engine) as session:
 		statement = select(DICOMImages).where(DICOMImages.SOPInstanceUID == uid)
 		result = session.exec(statement)
@@ -163,7 +165,7 @@ def get_sop_filenames(engine, uid):
 		except:
 			return [None]
 
-def get_series_filenames(engine, uid):
+def get_series_filenames(uid, engine=conquest_aria_engine):
 	files = []
 
 	with Session(engine) as session:
