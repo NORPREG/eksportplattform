@@ -125,10 +125,10 @@ class DICOMSR:
 
       return None
 
-def makeDataset(parentUID: str, patientID: str, patientName: str, XMLString: str) -> DICOMSR:
+def make_dataset(parentUID: str, patientID: str, patientName: str, content_string: str) -> DICOMSR:
    basicSR = DICOMSR()
    basicSR.addUIDs(parentUID)
    basicSR.addPatient(patientID=patientID, patientName=patientName)
    basicSR.addDatetimes()
-   basicSR.addContent(XMLString)
+   basicSR.addContent(content_string)
    return basicSR

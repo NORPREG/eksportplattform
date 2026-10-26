@@ -57,3 +57,20 @@ def transmit_rt_plan_dose(uids_exist):
                 print("- Moving RT Plan / Dose with SOP UID", uid)
                 aria_dicom_interface.c_move_image(assoc, uid)
         assoc.release()
+
+def md5hash(filename):
+	import hashlib
+
+	hash_md5 = hashlib.md5()
+	with open(filename, "rb") as f:
+		for chunk in iter(lambda: f.read(4096), b""):
+			hash_md5.update(chunk)
+	return hash_md5.hexdigest()
+
+def get_bytes_stored(filenames):
+	size = 0
+	for filename in filenames:
+		if filename:
+			size += os.path.getsize(config.conquest_aria.root_dir + filename)
+
+	return size

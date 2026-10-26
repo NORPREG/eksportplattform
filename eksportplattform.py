@@ -65,6 +65,10 @@ for patient_ser, plan_set in plan_sets.items():
 
 	log_database.add_patient(plan_set)
 
+new_npr_files = orchestrator.process_npr()
+result = orchestrator.send_nprfiles_to_krest(new_npr_files)
+log_database.add_nprfiles(result)
+
 apprecs = orchestrator.parse_apprecs()
 apprecs = orchestrator.remove_old_apprecs(apprecs)
 orchestrator.print_error_messages(apprecs)

@@ -20,9 +20,13 @@ class Krest(BaseModel):
     dicom: BaseDicom
     name: str
 
+class Npr(BaseModel):
+    root_dir: str
+
 class ConfigDataclass(BaseModel):
     conquest_aria: Pacs
     conquest_krest: Pacs
     aria: Pacs
     log_db: BaseSql
     krest: Krest
+    npr: Npr

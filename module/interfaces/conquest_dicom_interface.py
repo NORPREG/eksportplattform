@@ -1,3 +1,4 @@
+from pydicom.uid import BasicTextSRStorage
 from pynetdicom import AE, evt, build_role, debug_logger
 from pynetdicom.sop_class import (
 	PatientRootQueryRetrieveInformationModelGet,
@@ -101,6 +102,27 @@ def c_move_to_medfys2(plan_set):
 					)
 
 	assoc.release()
+
+def c_store_krest(ds):
+	# This is for DICOM SR
+	this_ae = AE(ae_title=config.conquest_krest.dicom.aet)
+	this_ae.add_requested_context(BasicTextSRStorage)
+
+	assert ds.SOPClassUID == BasicTextSRStorage
+
+	assoc = this_ae.associate(
+		config.conquest_krest.dicom.server,
+		config.conquest_krest.dicom.port,
+		ae_title=config.conquest_krest.dicom.aet
+	)
+	if not assoc.is_established:
+		raise RuntimeError(f"Association to {config.conquest_krest.dicom.aet} failed")
+
+	responses = assoc.send_c_store(ds)
+	assoc.release()
+
+	if responses[0][0].Status != 0x0000:
+		raise RuntimeError(f"C-STORE failed with status {responses[0][0].Status}")
 
 def find_patient_images(assoc, patient_id):
 	ds = Dataset()

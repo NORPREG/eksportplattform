@@ -44,3 +44,7 @@ class Config(metaclass=Singleton):
     @property
     def krest(self):
         return self.config_object.krest
+
+    @property
+    def npr(self):
+        return self.config_object.npr

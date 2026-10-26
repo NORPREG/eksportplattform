@@ -8,57 +8,13 @@ config = Config()
 
 from module.Dataclasses import export_logger_dataclass
 from module.Interfaces import conquest_db_interface
+from module.utils import tools
 
 class SetEncoder(json.JSONEncoder):
     def default(self, obj):
         if isinstance(obj, set):
             return list(obj)
         return json.JSONEncoder.default(self, obj)
-
-def get_bytes_stored(filenames):
-	size = 0
-	for filename in filenames:
-		if filename:
-			size += os.path.getsize(config.conquest_aria.root_dir + filename)
-
-	return size
-
-class LogDatabaseJSON:
-	def __init__(self):
-		self.log = self.get_log()
-
-	def get_log(self):
-		try:
-			with open(config.log_db.file, "r", encoding="utf-8") as input_file:
-				d =  json.load(input_file)
-				print(f"Found {len(d)} patients in {config.log_db.file}.")
-				return d
-		except Exception as e:
-			print("LogDatabase __init__ error: ", e)
-			return list()
-
-	def save(self):
-		with open(config.log_db.file, "w", encoding="utf-8") as output_file:
-			json.dump(self.log, output_file, indent=3, cls=SetEncoder)
-		
- 
-	def add_patient(self, patient_ser, plan_set: dict):
-		new_entry = {
-			"sent_dt": datetime.datetime.now().isoformat(),
-			"patient_ser": patient_ser,
-			"plan_set": plan_set["PlanSet"]
-		}
-		self.log.append(new_entry)
-
-	def check_patient(self, patient_ser: str) -> bool:
-		for entry in self.log:
-			if entry.get("patient_ser") == patient_ser:
-				return entry.get("sent_dt")
-		return False
-
-	@property
-	def plan_set(self):
-		return self.log
 
 class LogDatabase:
 	def __init__(self):
@@ -76,11 +32,51 @@ class LogDatabase:
 			else:
 				return course.sent_dt
 
+	def add_nprfile(self, npr_file: dict):
+		"""Add NPRFile to the logger database"""
+
+		db_npr_file = export_logger_dataclass.NPRFile(
+			file_name = npr_file.get("file_name"),
+			bytes = npr_file.get("bytes"),
+			md5_hash = npr_file.get("md5_hash"),
+			dicom_uid = npr_file.get("dicom_uid"),
+			sent_dt = npr_file.get("sent_dt"),
+		)
+
+		with Session(self.engine) as session:
+			session.add(db_npr_file)
+			session.commit()
+
+	def get_nprfiles(self) -> list[dict]:
+		"""Get all NPRFiles from the logger database. 
+			Use this to check whether a file has already been sent to NORPREG"""
+
+		with Session(self.engine) as session:
+			statement = select(export_logger_dataclass.NPRFile)
+			npr_files = session.exec(statement).all()
+			return npr_files
+
+	def check_if_nprfile_is_sent(self, file_name: str) -> bool:
+		"""Check whether a file has already been sent to NORPREG"""
+
+		with Session(self.engine) as session:
+			statement = select(export_logger_dataclass.NPRFile).where(export_logger_dataclass.NPRFile.file_name == file_name)
+			npr_file = session.exec(statement).first()
+			if not npr_file:
+				return False
+			else:
+				# check MD5 hash
+				md5_hash = tools.md5hash(config.conquest_aria.root_dir + file_name)
+				if md5_hash == npr_file.md5_hash:
+					return True
+				else:
+					return False
+
 	def add_patient(self, conquest_aria_engine, course: dict):
 		"""Add patient to the logger database from plan_set"""
 
 		# Add Course object
-		db_course = export_logger_dataclass.Course(
+		db_dicomtransfer = export_logger_dataclass.DicomTransfer(
 			patient_ser = str(course.get("PatientSer")),
 			sent_dt = datetime.datetime.now()
 		)
@@ -101,7 +97,7 @@ class LogDatabase:
 						type_uid = "SOP_INSTANCE"
 						filenames = conquest_db_interface.get_sop_filenames(conquest_aria_engine, item)
 					
-					bytes_stored = get_bytes_stored(filenames)
+					bytes_stored = tools.get_bytes_stored(filenames)
 
 					db_dicom_object = export_logger_dataclass.DicomObject(
 						reference_uid = item,
@@ -111,20 +107,38 @@ class LogDatabase:
 					)
 
 					db_plan_set.dicom_objects.append(db_dicom_object)
-			db_course.rtplans.append(db_plan_set)
+			db_dicomtransfer.rtplans.append(db_plan_set)
 
 		with Session(self.engine) as session:
-			session.add(db_course)
+			session.add(db_dicomtransfer)
 			session.commit()
 
-	def add_apprecs(self, apprecs: list[dict]) -> list[dict]:
-		if not apprecs:
-			return []
+	def get_rtplan_id(self, plan_sop_uid: str) -> int:
+		"""Get the rtplan_id for a given plan_sop_uid"""
 
-		for apprec in apprecs:
-			logger.warning(
-				"Parsed apprec for study_uid=%s, but persistence is pending database schema changes",
-				apprec.get("study_uid"),
-			)
+		with Session(self.engine) as session:
+			statement = select(export_logger_dataclass.RTPlan).where(export_logger_dataclass.RTPlan.plan_sop_uid == plan_sop_uid)
+			rtplan = session.exec(statement).first()
+			if not rtplan:
+				return None
+			else:
+				return rtplan.rtplan_id
 
-		return apprecs
+	def add_apprecs(self, apprecs: list[dict]):
+		"""Add apprecs to the logger database"""
+
+		with Session(self.engine) as session:
+			for apprec in apprecs:
+				rt_plan_id = self.get_rtplan_id(apprec.get("plan_sop_uid"))
+				if not rt_plan_id:
+					print(f"Could not find rtplan_id for plan_sop_uid {apprec.get('plan_sop_uid')}. Skipping apprec.")
+					continue
+
+				db_apprec = export_logger_dataclass.Apprec(
+					dicom_uid = apprec.get("dicom_uid"),
+					rtplan_id = rt_plan_id,
+					recieved_dt = apprec.get("recieved_dt"),
+					message_contents = apprec.get("message_contents")
+				)
+				session.add(db_apprec)
+			session.commit()
