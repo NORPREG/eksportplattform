@@ -30,10 +30,8 @@ logger = logging.getLogger(__name__)
 
 log_database = export_logger_interface.LogDatabase()
 
-def transmit_ct_series(ct_series_uid_list):
-    for ct_series_uid in ct_series_uid_list:
-        plan_set[patient_ser]["PlanSet"][plan_sop_uid]["CT"].add(ct_series_uid)
-
+def transmit_ct_series(plan_root):
+    for ct_series_uid in plan_root["CT"]:
         if not conquest_db_interface.check_exists_series(ct_series_uid):
             print(f"- Moving CT Series with Series UID", ct_series_uid)
             assoc = aria_dicom_interface.get_assoc()

@@ -19,9 +19,12 @@ class Pacs(BaseModel):
 class Krest(BaseModel):
     dicom: BaseDicom
     name: str
+    uid_root: str
 
 class Npr(BaseModel):
     root_dir: str
+    structure: str
+    file_extension: str
 
 class ConfigDataclass(BaseModel):
     conquest_aria: Pacs

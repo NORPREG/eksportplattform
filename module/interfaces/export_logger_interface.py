@@ -24,7 +24,7 @@ class LogDatabase:
 		"""Check whether patient has data sent already"""
 
 		with Session(self.engine) as session:
-			statement = select(export_logger_dataclass.Course).where(export_logger_dataclass.Course.PatientSer == patient_ser)
+			statement = select(export_logger_dataclass.DicomTransfer).where(export_logger_dataclass.DicomTransfer.PatientSer == patient_ser)
 			course = session.exec(statement).first()
 			if not course:
 				return False
@@ -66,22 +66,22 @@ class LogDatabase:
 				return False
 			else:
 				# check MD5 hash
-				md5_hash = tools.md5hash(config.conquest_aria.root_dir + file_name)
+				md5_hash = tools.md5hash(file_name)
 				if md5_hash == npr_file.md5_hash:
 					return True
 				else:
 					return False
 
-	def add_patient(self, conquest_aria_engine, course: dict):
+	def add_patient(self, conquest_aria_engine, plan_sets: dict):
 		"""Add patient to the logger database from plan_set"""
 
 		# Add Course object
 		db_dicomtransfer = export_logger_dataclass.DicomTransfer(
-			patient_ser = str(course.get("PatientSer")),
+			patient_ser = str(plan_sets.get("PatientSer")),
 			sent_dt = datetime.datetime.now()
 		)
 
-		for plan_uid, plan_set in course.get("PlanSet", {}).items():
+		for plan_uid, plan_set in plan_sets.get("PlanSet", {}).items():
 			db_plan_set = export_logger_dataclass.RTPlan(
 				plan_sop_uid = plan_uid,
 				plan_label = plan_set.get("RTPlanLabel")
@@ -92,10 +92,10 @@ class LogDatabase:
 				for item in plan_set.get(modality, []):
 					if modality == "CT":
 						type_uid = "SERIES_INSTANCE"
-						filenames = conquest_db_interface.get_series_filenames(conquest_aria_engine, item)
+						filenames = conquest_db_interface.get_series_filenames(item, conquest_aria_engine)
 					else:
 						type_uid = "SOP_INSTANCE"
-						filenames = conquest_db_interface.get_sop_filenames(conquest_aria_engine, item)
+						filenames = conquest_db_interface.get_sop_filenames(item, conquest_aria_engine)
 					
 					bytes_stored = tools.get_bytes_stored(filenames)
 
@@ -130,15 +130,16 @@ class LogDatabase:
 		with Session(self.engine) as session:
 			for apprec in apprecs:
 				rt_plan_id = self.get_rtplan_id(apprec.get("plan_sop_uid"))
-				if not rt_plan_id:
+				if rt_plan_id is None:
 					print(f"Could not find rtplan_id for plan_sop_uid {apprec.get('plan_sop_uid')}. Skipping apprec.")
 					continue
 
 				db_apprec = export_logger_dataclass.Apprec(
 					dicom_uid = apprec.get("dicom_uid"),
-					rtplan_id = rt_plan_id,
+					rt_plan_id = rt_plan_id,
 					recieved_dt = apprec.get("recieved_dt"),
-					message_contents = apprec.get("message_contents")
+					message_contents = apprec.get("message_contents"),
+					message_status=apprec.get("message_status")
 				)
 				session.add(db_apprec)
 			session.commit()

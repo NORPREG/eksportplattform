@@ -86,7 +86,7 @@ class Apprec(SQLModel, table=True):
     __tablename__ = "Apprec"
 
     apprec_id: Optional[int] = Field(sa_column=Column("ApprecId", Integer, primary_key=True))
-    dicom_transfer_id: int = Field(sa_column=Column("DicomTransferId", Integer, ForeignKey("DicomTransfer.DicomTransferId")))
+    rt_plan_id: int = Field(sa_column=Column("RtPlanId", Integer, ForeignKey("RTPlan.RtPlanId")))
     dicom_uid: Optional[str] = Field(default=None, sa_column=Column("DicomUid"))
     recieved_dt : Optional[datetime] = Field(default=None, sa_column=Column("RecievedDt", DATETIME2))
     message_contents: Optional[str] = Field(default=None, sa_column=Column("MessageContents"))

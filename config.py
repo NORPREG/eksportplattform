@@ -19,7 +19,10 @@ class Singleton(type):
 
 class Config(metaclass=Singleton):
     def __init__(self, HF = None):
-        self.config_object = get_config_object(CONFIG_PATH)
+        if isinstance(HF, str) and HF.lower() == "test":
+            self.config_object = get_config_object("config/config_test.toml")
+        else:
+            self.config_object = get_config_object(CONFIG_PATH)
 
     @property
     def conquest_aria(self):

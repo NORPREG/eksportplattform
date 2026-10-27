@@ -40,10 +40,10 @@ def find_all_patients_in_aria_since(start_date):
 	return aria_db_interface.get_plan_set(start_date)
 
 def find_patient_id(plan_set):
-    for plan_sop_uid in plan_set["PlanSet"]:
-        if patient_id := conquest_db_interface.get_patient_id_from_plan_sop_uid(plan_sop_uid):
-            plan_set["PatientID"] = patient_id
-            break
+	for plan_sop_uid in plan_set["PlanSet"]:
+		if patient_id := conquest_db_interface.get_patient_id_from_plan_sop_uid(plan_sop_uid):
+			plan_set["PatientID"] = patient_id
+			break
 
 def move_patient_to_conquest(plan_set):
 	for plan_sop_uid in plan_set["PlanSet"]:
@@ -70,7 +70,7 @@ def move_patient_to_conquest(plan_set):
 			ct_series_uid_list = conquest_db_interface.find_referenced_ct_series(instance_uid)
 
 			plan_root["CT"].update(ct_series_uid_list)
-			tools.transmit_ct_series(ct_series_uid_list)
+			tools.transmit_ct_series(plan_root)
 
 	if not plan_set["PatientID"]:
 		find_patient_id(plan_set)
@@ -122,9 +122,8 @@ def parse_apprecs():
 
 		apprecs.append({
 			"plan_sop_uid": plan_sop_uid,
-			"status": status,
-			"message": message,
-			"apprec_message": raw_message,
+			"message_status": status,
+			"message_contents": message,
 			"dicom_uid": getattr(sr_document.ds, "SOPInstanceUID", sr_file.SOPInstanceUID),
 			"filepath": str(filepath),
 		})
@@ -225,7 +224,6 @@ def remove_old_apprec_messages(apprecs):
 
 	return filtered_apprecs
 
-
 def find_all_npr_files() -> list[str]:
 	npr_files = []
 
@@ -269,9 +267,15 @@ def send_nprfile_to_krest(npr_file):
 	"""
 
 	contents = Path(npr_file).read_text(encoding="utf-8")
-	ds = make_dataset(parentUID=config.npr.uid_root, patientID="NPR FILE", patientName="NPR FILE", content_string=contents)
-	sop_uid = ds.SOPInstanceUID
+	dicom_sr = make_dataset(parentUID=config.krest.uid_root, patientID="NPR FILE", patientName="NPR FILE", content_string=contents)
+	sop_uid = dicom_sr.ds.SOPInstanceUID
 
-	conquest_dicom_interface.c_store_krest(ds)
+	conquest_dicom_interface.c_store_krest(dicom_sr.ds)
 
 	return sop_uid
+
+def process_apprec():
+	apprecs = parse_apprecs()
+	apprecs = remove_old_apprec_messages(apprecs)
+	print_error_messages(apprecs)
+	log_database.add_apprecs(apprecs)
