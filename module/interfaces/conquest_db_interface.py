@@ -1,24 +1,15 @@
-import hashlib
 import logging
-from configparser import ConfigParser
-import shlex
-import subprocess
 from sqlmodel import Session, create_engine, select
 import pydicom
 
-
+from config import Config
+config = Config()
 
 from module.Dataclasses.conquest_dataclass import (
 	DICOMImages, 
 	DICOMSeries,
 	DICOMPatients,
 )
-from sqlmodel import select
-
-from config import Config
-from pathlib import Path
-
-config = Config()
 
 logger = logging.getLogger(__name__ + f" (config.HF)")
 
@@ -37,6 +28,9 @@ def get_patient_ids():
 			patient_ids.append(result.PatientID)
 
 	return patient_ids
+
+def get_conquest_aria_engine():
+	return conquest_aria_engine
 
 def check_rtdose_beam_or_plansum(rtdose_series_uid_list):
 	rtdose_files = list()
@@ -71,7 +65,7 @@ def get_rt_struct_uid(plan_sop_uid):
 			ds_path = config.conquest_aria.root_dir + result.one().ObjectFile
 		except Exception as e:
 			print("Cannot find structure files! ", e)
-			return list()
+			return list(), ""
 
 	ds = pydicom.dcmread(ds_path)
 	structure_sets = list()
@@ -95,7 +89,7 @@ def get_patient_id_from_plan_sop_uid(plan_sop_uid: str) -> str:
 		return result[0].ImagePat
 
 
-def find_referenced_ct_series(rtstruct_instance_uid):
+def find_referenced_ct_series(rtstruct_instance_uid: str) -> set:
 	with Session(conquest_aria_engine) as session:
 		statement = select(DICOMImages).where(DICOMImages.SOPInstanceUID == rtstruct_instance_uid)
 		result = session.exec(statement)
@@ -103,7 +97,7 @@ def find_referenced_ct_series(rtstruct_instance_uid):
 			ds_path = config.conquest_aria.root_dir + result.one().ObjectFile
 		except Exception as e:
 			print("Cannot find CT series: ", e)
-			return None
+			return set()
 
 	ct_series_uid = set()
 	ds = pydicom.dcmread(ds_path)
@@ -163,7 +157,7 @@ def get_sop_filenames(uid, engine=conquest_aria_engine):
 		try:
 			return [result.one().ObjectFile]
 		except:
-			return [None]
+			return ()
 
 def get_series_filenames(uid, engine=conquest_aria_engine):
 	files = []

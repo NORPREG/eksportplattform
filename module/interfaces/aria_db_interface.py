@@ -1,11 +1,7 @@
-from pydantic import BaseModel, Field
 from sqlalchemy import create_engine, text
-from sqlmodel import Session, create_engine, select
+from sqlmodel import create_engine
 from typing import List
-import pyodbc
 import logging
-from pprint import pprint
-import os
 from datetime import datetime
 
 from config import Config
@@ -115,6 +111,7 @@ def get_plan_set(from_dt: datetime):
 		
 		plan_set[rtrecord.PatientSer]["PlanSet"][rtrecord.PlanUID]["RTPLAN"].add(rtrecord.PlanUID)
 		plan_set[rtrecord.PatientSer]["PlanSet"][rtrecord.PlanUID]["RTRECORD"].add(rtrecord.TreatmentRecordUID)
-		plan_set[rtrecord.PatientSer]["PlanSet"][rtrecord.PlanUID]["RTDOSE"].add(rtrecord.DoseUID)
+		if rtrecord.DoseUID:
+			plan_set[rtrecord.PatientSer]["PlanSet"][rtrecord.PlanUID]["RTDOSE"].add(rtrecord.DoseUID)
 
 	return plan_set

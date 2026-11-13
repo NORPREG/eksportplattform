@@ -1,36 +1,18 @@
-# Send files from Conquest to registry
-
-from pydantic import BaseModel, Field
-from sqlalchemy import create_engine, text
-from typing import List
-import pyodbc
-import json
+from sqlalchemy import create_engine
 import logging
 from pprint import pprint
-import subprocess
-import os
 from glob import glob
-import pydicom
-import datetime
+from pydicom.dataset import Dataset
+from sqlmodel import create_engine
 
-from pynetdicom import AE, evt, build_role, debug_logger
+from pynetdicom import AE
 from pynetdicom.sop_class import (
-	PatientRootQueryRetrieveInformationModelGet,
 	PatientRootQueryRetrieveInformationModelMove,
 	PatientRootQueryRetrieveInformationModelFind,
-	RTBeamsTreatmentRecordStorage,
-	RTPlanStorage
 )
 
-from pydicom.dataset import Dataset
-from sqlmodel import create_engine, Session, select, exists
 from config import Config
-
-from module.Interfaces import (
-	aria_db_interface,
-)
-
-# debug_logger()
+from module.utils.dicom_status import check_c_move_responses, iter_c_find_responses
 
 logger = logging.getLogger(__name__)
 config = Config()
@@ -64,11 +46,7 @@ def c_move_image(association, uid):
 		query_model=PatientRootQueryRetrieveInformationModelMove
 	)
 
-	for status, identifier in responses:
-		if status:
-			pass
-		else:
-			print("[GET] Connection timed out")
+	return check_c_move_responses(responses, "ARIA image transfer")
 
 def c_move_series(association, uid):
 	ds = Dataset()
@@ -81,11 +59,7 @@ def c_move_series(association, uid):
 		query_model=PatientRootQueryRetrieveInformationModelMove
 	)
 
-	for status, identifier in responses:
-		if status:
-			pass
-		else:
-			print("[GET] Connection timed out")
+	return check_c_move_responses(responses, "ARIA series transfer")
 
 def c_find_study(association, uid):
 	ds = Dataset()
@@ -98,14 +72,13 @@ def c_find_study(association, uid):
 
 	responses = association.send_c_find(ds, PatientRootQueryRetrieveInformationModelFind)
 
-	for status, identifier in responses:
-		if status and status.Status in (0xFF00, 0xFF01):
+	for identifier in iter_c_find_responses(responses, "ARIA study lookup"):
 
-			result.append({
-				"SeriesInstanceUID": identifier.get("SeriesInstanceUID"),
-				"StudyInstanceUID": identifier.get("StudyInstanceUID"),
-				"Modality": identifier.get("Modality"),
-			})
+		result.append({
+			"SeriesInstanceUID": identifier.get("SeriesInstanceUID"),
+			"StudyInstanceUID": identifier.get("StudyInstanceUID"),
+			"Modality": identifier.get("Modality"),
+		})
 
 	return result
 
@@ -121,14 +94,13 @@ def get_study_uid_from_plan_sop_uid(association, plan_sop_uid):
 
 	responses = association.send_c_find(ds, PatientRootQueryRetrieveInformationModelFind)
 
-	for status, identifier in responses:
-		if status and status.Status in (0xFF00, 0xFF01):
+	for identifier in iter_c_find_responses(responses, "ARIA plan lookup"):
 
-			result.append({
-				"StudyInstanceUID": identifier.get("StudyInstanceUID"),
-				"SOPInstanceUID": identifier.get("SOPInstanceUID"),
-				"SeriesInstanceUID": identifier.get("SeriesInstanceUID"),
-				"Modality": identifier.get("Modality"),
-			})
+		result.append({
+			"StudyInstanceUID": identifier.get("StudyInstanceUID"),
+			"SOPInstanceUID": identifier.get("SOPInstanceUID"),
+			"SeriesInstanceUID": identifier.get("SeriesInstanceUID"),
+			"Modality": identifier.get("Modality"),
+		})
 
 	return result

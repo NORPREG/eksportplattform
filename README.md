@@ -15,7 +15,6 @@ Systemet sikrer at:
 * alle nødvendige DICOM-objekter følger med
 * eksporten kan spores og reproduseres (MSSQL).
 * DICOM Apprec mottas via DICOM SR på pasientnivå og evt. feil logges i databasen (MSSQL). Se mer detaljer om hvordan disse lages i [NORPREG-repoet](github.com/NORPREG/NORPREG).
-* Senere vil også NPR-rapporten hentes ut fra SMB og pakkes inn i DICOM SR. Per i dag sendes den separat over Filsluse.
 
 ---
 
@@ -23,6 +22,7 @@ Systemet sikrer at:
 
 Arbeidsflyten er:
 
+For DICOM:
 1. Hent alle RT plan-sett fra ARIA etter en gitt dato
 2. For hver pasient:
    * Finn RT Plan og tilhørende RT Dose via ARIA DB integrasjon. En [Stored Procedure er laget for dette formålet](resources/blp_GetTxRecordsProtonToExport.sql).
@@ -33,10 +33,17 @@ Arbeidsflyten er:
    * Intern Conquest-node (denne var nødvendig for å sørge for to lyttende porter, anbefaler å sette opp intern port mot OIS som 314XX -- samme som mot KREST-XXX.
    * KREST-XXX
 5. Logg eksporterte pasienter i en eksportdatabase (MSSQL). [Se LogDatabase-grensesnittet her](module/interfaces/export_logger_interface.py).
+6. Finn mottatte applikasjonskvitteringer (apprec): Basic Text SR med `SeriesDescription = "Apprec"`
+7. Legg alle apprec-hendelser inn i databasen, knyttet mot riktig pasient
+
+For NPR:
+1. Let i `config.config.npr.root_dir` (enten flat struktur eller per år) etter nye alle eksisterende NPR-filer
+2. Kontroller alle identifiserte filer mot allerede sendte filer. Dette gjøres basert på filnavn + md5-hash
+3. Pakk NPR-filen (UTF-8 CSV tekst) inn i en DICOM SR container. Bruk en KREST-XXX-basert UID med pasientnavn "NPR^FILE"
+4. Send denne filen til KREST-XXX
 
 Dette sikrer at komplette behandlingsdatasett blir eksportert konsistent.
 
-TODO: Legg til NPR i eksporten
 TODO: RT Treatment Record eksport kræsjer pga. bug i Aria (når det er ° i FieldId...).
 
 ---
@@ -116,6 +123,28 @@ Eksportdatabasen brukes til å unngå duplikater.
 sent_dt = log_database.check_patient(patient_ser)
 ```
 
+`orchestrator.check_for_changes_and_errors(plan_set)` returnerer en ny `plan_set_changes`
+med samme pasientmetadata og kun objekt-UID-er som ikke er logget som sendt.
+Uendrede planer utelates; uten endringer er `plan_set_changes["PlanSet"]` tom.
+Plan-UID som nøkkel og `RTPlanLabel` beholdes som kontekst, mens hver
+modalitet inneholder et sett med kun nye UID-er. Sammenligningen skjer
+per pasient, plan, modalitet og UID-type. Siste forsøk med utfylt `SentDt`
+avgjør status; ved likt tidspunkt brukes høyeste transfer-ID og objekt-ID.
+CT sammenlignes på serie-UID, øvrige
+modaliteter på SOP-UID. Feilede objekter og eldre rader uten eksplisitt
+suksessstatus blir forsøkt igjen ved neste kjøring.
+Funksjonen endrer ikke `plan_set`. UID-er med status 0 på siste forsøk legges
+til selv om de mangler i dagens uttrekk, også RTSTRUCT og CT. Dette gjelder
+kun planer som finnes i dagens pasientuttrekk. En eldre feil etterfulgt av
+suksess utløser ikke retry. Historiske objekter uten siste status 0 som ikke
+finnes i dagens uttrekk, og endringer i etiketter eller rekkefølge, utløser
+ikke ny eksport.
+Hovedprogrammet bruker endringsstrukturen videre i stedet for å hoppe over
+pasienter som finnes lokalt i Conquest. RTPLAN/RTSTRUCT kan fortsatt hentes
+lokalt fra ARIA for å finne referanser. Etter at RTSTRUCT og CT er funnet,
+filtreres historiske UID-er bort igjen før intern videresending. Til KREST
+sendes kun de valgte SOP-UID-ene og CT-serie-UID-ene, og kun disse loggføres.
+
 ---
 
 ## 3. Verifiser RTPLAN og RTDOSE
@@ -174,9 +203,61 @@ conquest_dicom_interface.c_move_to_medfys2(...)
 conquest_dicom_interface.c_move_to_krest_hus(...)
 ```
 
+C-MOVE leser responsene til sluttstatus, og C-STORE kontrollerer
+statusdatasettet direkte. Status `0x0000` gir `(1, "")`; feil, advarsler,
+avbrudd og manglende sluttstatus gir `(0, feilmelding)` og logges.
+Resultatene følger hvert objekt i planens `TransferResults` gjennom ARIA,
+intern Conquest og KREST. Feilede objekter sendes ikke videre; uavhengige
+objekter og neste pasient fortsetter. Ved feil på RTPLAN hoppes avhengige
+objekter over, og ved feil på RTSTRUCT hoppes avhengige CT-serier over.
+`DicomObject.TransferStatus` lagrer sluttresultatet (1 = pass, 0 = fail),
+og `TransferMessage` forklarer feil eller hvorfor objektet ble hoppet over.
+`DicomTransfer.SentDt` er tidspunktet for eksportforsøket, ikke bevis på at
+alle objektene ble sendt.
+For feilede objekter kan `BytesStored` være `NULL`.
+Databasefeil og programmeringsfeil skjules ikke. C-FIND er et oppslag,
+ikke en overføring, og gir fortsatt feil ved ugyldig eller ufullstendig respons.
+Associations frigjøres også ved overføringsfeil. Feilede NPR-sendinger logges
+og hoppes over uten å registreres som sendt. C-STORE for NPR bekrefter lagring
+i lokal Conquest, ikke endelig behandling hos KREST/NORPREG.
+
+For en eksisterende database må de nye kolonnene legges til før kjøring:
+
+```sql
+ALTER TABLE dbo.DicomObject ADD TransferStatus int NULL,
+    TransferMessage nvarchar(max) NULL;
+ALTER TABLE dbo.DicomObject ADD CONSTRAINT CK_DicomObject_TransferStatus
+    CHECK (TransferStatus IN (0, 1));
+```
+
+Hvis `TransferStatus` allerede finnes som tekstkolonne, må eksisterende
+verdier konverteres til 1/0 og kolonnen endres til `int` før kjøring.
+
+Statuskontrollene kan testes uten nettverk eller produksjonskonfigurasjon:
+
+```powershell
+python -m unittest discover -s tests -p "test_dicom_status.py"
+```
+
 ---
 
 # Konfigurasjon
+
+## Eksportdatabase (MSSQL)
+
+[resources/Eksportplattform.sql](resources/Eksportplattform.sql) oppretter tabellene
+`DicomTransfer`, `RTPlan`, `DicomObject`, `NPRFile` og `Apprec` i en eksisterende
+`ProtonRegister`-database. Tabeller, kolonnenavn og relasjoner følger
+[export_logger_dataclass.py](module/Dataclasses/export_logger_dataclass.py).
+Endre `USE [ProtonRegister]` dersom databasen har et annet navn.
+
+Skriptet er for nyopprettelse, ikke migrering av eksisterende tabeller, og sletter
+ingen data. Opprettelsen kjøres i en transaksjon og rulles tilbake ved feil.
+Nullable-kolonner følger modellens eksplisitte SQLAlchemy-definisjoner;
+tidsstempler settes av applikasjonen. Tekst lagres som `nvarchar(max)` uten
+ekstra lengdebegrensninger, og filstørrelser lagres som `bigint`.
+
+## Applikasjonskonfigurasjon
 
 Konfigurasjon lastes fra `Config`, som funker som en Singleton med dot-henvisning:
 

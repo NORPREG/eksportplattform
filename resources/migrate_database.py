@@ -1,33 +1,17 @@
-import subprocess
 import os
-import tomllib
-from sqlmodel import Session, create_engine, select
-import logging
+from sqlmodel import Session, create_engine
 from datetime import datetime
-from pprint import pprint
 
 from config import Config
-
 config = Config()
 
-from module.Dataclasses.conquest_dataclass import (
-	DICOMImages, 
-	DICOMPatients,
-	DICOMSeries
-)
-
 from module.Dataclasses import export_logger_dataclass
-
 from module.Interfaces import (
-	aria_db_interface,
-	aria_dicom_interface,
 	conquest_db_interface,
-	conquest_dicom_interface,
 	export_logger_interface
 )
 
 log_database = export_logger_interface.LogDatabase()
-
 
 def get_bytes_stored(filenames):
 	size = 0

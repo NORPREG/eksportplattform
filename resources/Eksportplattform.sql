@@ -1,56 +1,96 @@
-CREATE TABLE ProtonRegister.dbo.Course (
-    CourseId		int IDENTITY(1,1) PRIMARY KEY,
-    PatientSer 		nvarchar(50) NOT NULL,
-    SentDt			datetime2 NOT NULL DEFAULT sysdatetime()
-);
+-- Creates the export logger tables in an existing database; this is not a migration.
+-- Nullability follows the explicit SQLAlchemy Column definitions in export_logger_dataclass.py.
+-- Timestamp defaults are supplied by the application, not by SQL Server.
+USE [ProtonRegister];
+GO
 
-CREATE TABLE ProtonRegister.dbo.RTPlan (
-    RTPlanId           int IDENTITY(1,1) PRIMARY KEY,
-    CourseId           int NOT NULL,
+SET XACT_ABORT ON;
+GO
 
-    PlanSopUid         nvarchar(128) NOT NULL,
-    PlanLabel          nvarchar(100) NULL,
-  	Apprec			   nvarchar(255) NULL,
+BEGIN TRY
+    BEGIN TRANSACTION;
 
-    CONSTRAINT UQ_RTPlan_PlanSopUid UNIQUE (PlanSopUid),
+    CREATE TABLE [dbo].[DicomTransfer] (
+        [DicomTransferId] int IDENTITY(1,1) NOT NULL,
+        [PatientSer] nvarchar(max) NULL,
+        [SentDt] datetime2 NULL,
 
-    CONSTRAINT FK_RTPlan_Course
-        FOREIGN KEY (CourseId)
-        REFERENCES Course(CourseId)
-);
+        CONSTRAINT [PK_DicomTransfer] PRIMARY KEY ([DicomTransferId])
+    );
 
-CREATE TABLE ProtonRegister.dbo.DicomObject (
-    DicomObjectId      int IDENTITY(1,1) PRIMARY KEY,
+    CREATE TABLE [dbo].[RTPlan] (
+        [RtPlanId] int IDENTITY(1,1) NOT NULL,
+        [DicomTransferId] int NULL,
+        [PlanSopUid] nvarchar(max) NULL,
+        [PlanLabel] nvarchar(max) NULL,
+        [Apprec] nvarchar(max) NULL,
 
-    RTPlanId           int NOT NULL,
+        CONSTRAINT [PK_RTPlan] PRIMARY KEY ([RtPlanId]),
+        CONSTRAINT [FK_RTPlan_DicomTransfer]
+            FOREIGN KEY ([DicomTransferId])
+            REFERENCES [dbo].[DicomTransfer] ([DicomTransferId])
+    );
 
-    ReferenceUid 	   nvarchar(128) NOT NULL,
-    TypeUid 		   nvarchar(32) NOT NULL,
+    CREATE TABLE [dbo].[DicomObject] (
+        [DicomObjectId] int IDENTITY(1,1) NOT NULL,
+        [RtPlanId] int NULL,
+        [ReferenceUid] nvarchar(max) NULL,
+        [TypeUid] nvarchar(max) NULL,
+        [Modality] varchar(8) NULL,
+        [BytesStored] bigint NULL,
+        [TransferStatus] int NULL,
+        [TransferMessage] nvarchar(max) NULL,
+        [CreatedDt] datetime2 NULL,
 
-    Modality	       varchar(20) NOT NULL,
-    BytesStored		   bigint,
+        CONSTRAINT [PK_DicomObject] PRIMARY KEY ([DicomObjectId]),
+        CONSTRAINT [CK_DicomObject_TransferStatus]
+            CHECK ([TransferStatus] IN (0, 1)),
+        CONSTRAINT [FK_DicomObject_RTPlan]
+            FOREIGN KEY ([RtPlanId])
+            REFERENCES [dbo].[RTPlan] ([RtPlanId]),
+        CONSTRAINT [CK_DicomObject_Modality]
+            CHECK ([Modality] IN (
+                'RTDOSE',
+                'RTSTRUCT',
+                'RTRECORD',
+                'RTPLAN',
+                'CT',
+                'CBCT',
+                'MR',
+                'SR'
+            ))
+    );
 
-    CreatedDt          datetime2 NOT NULL DEFAULT sysdatetime(),
+    CREATE TABLE [dbo].[NPRFile] (
+        [FileId] int IDENTITY(1,1) NOT NULL,
+        [FileName] nvarchar(max) NULL,
+        [Bytes] bigint NULL,
+        [Md5Hash] nvarchar(max) NULL,
+        [DicomUid] nvarchar(max) NULL,
+        [SentDt] datetime2 NULL,
 
-    CONSTRAINT FK_DicomObject_RTPlan
-        FOREIGN KEY (RTPlanId)
-        REFERENCES RTPlan(RTPlanId),
+        CONSTRAINT [PK_NPRFile] PRIMARY KEY ([FileId])
+    );
 
-    CONSTRAINT CK_DicomObject_Modality
-        CHECK (Modality IN (
-            'RTDOSE',
-            'RTSTRUCT',
-            'RTRECORD',
-			'RTPLAN',
-            'CT',
-            'CBCT',
-            'MR'
-    )),
+    CREATE TABLE [dbo].[Apprec] (
+        [ApprecId] int IDENTITY(1,1) NOT NULL,
+        [RtPlanId] int NULL,
+        [DicomUid] nvarchar(max) NULL,
+        [ReceivedDt] datetime2 NULL,
+        [MessageContents] nvarchar(max) NULL,
+        [MessageStatus] int NULL,
 
-    CONSTRAINT CK_DicomObject_TypeUid
-    	CHECK (TypeUid IN (
-    		'SOP_INSTANCE',
-    		'SERIES_INSTANCE',
-    		'STUDY_INSTANCE'
-   	))
-);
+        CONSTRAINT [PK_Apprec] PRIMARY KEY ([ApprecId]),
+        CONSTRAINT [FK_Apprec_RTPlan]
+            FOREIGN KEY ([RtPlanId])
+            REFERENCES [dbo].[RTPlan] ([RtPlanId])
+    );
+
+    COMMIT TRANSACTION;
+END TRY
+BEGIN CATCH
+    IF XACT_STATE() <> 0
+        ROLLBACK TRANSACTION;
+
+    THROW;
+END CATCH;

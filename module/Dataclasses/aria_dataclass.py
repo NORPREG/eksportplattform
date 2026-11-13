@@ -8,4 +8,4 @@ class TxRecordsProtonToExport(BaseModel):
 	PatientSer: int
 	PlanUID: str
 	TreatmentRecordUID: str
-	DoseUID: str
+	DoseUID: Optional[str]

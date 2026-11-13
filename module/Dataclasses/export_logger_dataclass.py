@@ -66,6 +66,9 @@ class DicomObject(SQLModel, table=True):
 
     bytes_stored: Optional[int] = Field(default=None, sa_column=Column("BytesStored"))
 
+    transfer_status: Optional[int] = Field(default=None, sa_column=Column("TransferStatus", Integer))
+    transfer_message: Optional[str] = Field(default=None, sa_column=Column("TransferMessage"))
+
     created_dt: datetime = Field(default_factory=datetime.utcnow, sa_column=Column("CreatedDt", DATETIME2))
 
     rtplan: Optional[RTPlan] = Relationship(
@@ -88,7 +91,7 @@ class Apprec(SQLModel, table=True):
     apprec_id: Optional[int] = Field(sa_column=Column("ApprecId", Integer, primary_key=True))
     rt_plan_id: int = Field(sa_column=Column("RtPlanId", Integer, ForeignKey("RTPlan.RtPlanId")))
     dicom_uid: Optional[str] = Field(default=None, sa_column=Column("DicomUid"))
-    recieved_dt : Optional[datetime] = Field(default=None, sa_column=Column("RecievedDt", DATETIME2))
+    received_dt : Optional[datetime] = Field(default=None, sa_column=Column("ReceivedDt", DATETIME2))
     message_contents: Optional[str] = Field(default=None, sa_column=Column("MessageContents"))
     message_status: Optional[int] = Field(default=None, sa_column=Column("MessageStatus"))
 

@@ -3,8 +3,9 @@ import datetime
 import pydicom
 from typing import Optional
 
-from pydicom.filereader import dcmread
-from pydicom.sr.codedict import codes
+from config import Config
+config = Config()
+
 from pydicom.uid import generate_uid, UID
 
 
@@ -36,26 +37,26 @@ class DICOMSR:
          self.ds.is_little_endian = True
          self.ds.is_implicit_VR = False
 
-   def addUIDs(self, studyUID: str) -> None:
+   def add_UIDs(self, studyUID: str) -> None:
       self.ds.SpecificCharacterSet = "ISO_IR 192"
       self.ds.SOPClassUID = self.basicTextSRStorage
-      self.ds.SOPInstanceUID = generate_uid()
+      self.ds.SOPInstanceUID = generate_uid(prefix=config.krest.uid_root)
       self.ds.Modality = "SR"
       self.ds.StudyInstanceUID = studyUID
-      self.ds.SeriesInstanceUID = generate_uid()
+      self.ds.SeriesInstanceUID = generate_uid(prefix=config.krest.uid_root)
 
-   def addPatient(self, patientID: str, patientName: str) -> None:
+   def add_patient(self, patientID: str, patientName: str) -> None:
       self.ds.PatientName = patientName
       self.ds.PatientID = patientID
 
-   def addDatetimes(self):
+   def add_datetimes(self):
       dt = datetime.datetime.now()
       self.ds.ContentDate = dt.strftime('%Y%m%d')
       self.ds.SeriesDate = dt.strftime('%Y%m%d')
       self.ds.ContentTime = dt.strftime('%H%M%S.%f')
       self.ds.SeriesTime = dt.strftime('%H%M%S.%f')
 
-   def addContent(self, XMLString: str) -> None:
+   def add_content(self, text_string: str) -> None:
       title = pydicom.Dataset()
       title.CodeValue = self.documentTitleCode
       title.CodingSchemeDesignator = "DCM"
@@ -64,7 +65,7 @@ class DICOMSR:
       self.ds.ValueType = "CONTAINER"
       self.ds.ConceptNameCodeSequence = pydicom.sequence.Sequence()
       self.ds.ConceptNameCodeSequence.append(title)
-      self.ds.ContinuityOfContent = "CONTAINER"
+      self.ds.ContinuityOfContent = "SEPARATE"
 
       textDesignator = pydicom.Dataset()
       textDesignator.CodeValue = self.externalDataSourceCode
@@ -77,15 +78,15 @@ class DICOMSR:
       report.ConceptNameCodeSequence = pydicom.sequence.Sequence()
       report.ConceptNameCodeSequence.append(textDesignator)
 
-      report.TextValue = XMLString
+      report.TextValue = text_string
 
       self.ds.ContentSequence = pydicom.sequence.Sequence()
       self.ds.ContentSequence.append(report)
 
-   def saveFile(self, filename: str) -> None:
+   def save_file(self, filename: str) -> None:
       self.ds.save_as(filename, write_like_original=False)
 
-   def getXML(self) -> Optional[str]:
+   def get_text(self) -> Optional[str]:
       return self.get_text_value()
 
    def get_text_value(self) -> Optional[str]:
@@ -127,8 +128,8 @@ class DICOMSR:
 
 def make_dataset(parentUID: str, patientID: str, patientName: str, content_string: str) -> DICOMSR:
    basicSR = DICOMSR()
-   basicSR.addUIDs(parentUID)
-   basicSR.addPatient(patientID=patientID, patientName=patientName)
-   basicSR.addDatetimes()
-   basicSR.addContent(content_string)
+   basicSR.add_UIDs(parentUID)
+   basicSR.add_patient(patientID=patientID, patientName=patientName)
+   basicSR.add_datetimes()
+   basicSR.add_content(content_string)
    return basicSR
