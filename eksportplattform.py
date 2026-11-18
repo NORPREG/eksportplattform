@@ -30,19 +30,17 @@ print(f"Found {len(plan_sets)} patients since {start_date.isoformat()}")
 # Transmit patients
 for patient_ser, plan_set in plan_sets.items():
 	print("Working on patient", patient_ser)
-	plan_set_changes = orchestrator.check_for_changes_and_errors(plan_set)
-	if not plan_set_changes["PlanSet"]:
-		print(f"- No new objects to transmit to {config.krest.name}")
-		continue
+	# plan_set_changes = orchestrator.check_for_changes_and_errors(plan_set)
 
 	print("Moving patient to MF2")
-	orchestrator.move_patient_to_conquest(plan_set_changes)
-	if not plan_set_changes["PlanSet"]:
-		continue
-	print("Moving patient to KREST")
-	orchestrator.move_patient_to_ous(plan_set_changes)
+	# Doesn't transmit files already in Conquest DB
+	orchestrator.move_patient_to_conquest(plan_set)
 
-	log_database.add_patient(conquest_db_interface.get_conquest_aria_engine(), plan_set_changes)
+	print("Moving patient to KREST")
+	# Add some logic here before sending. Check apprec e.g.
+	orchestrator.move_patient_to_ous(plan_set)
+
+	log_database.add_patient(conquest_db_interface.get_conquest_aria_engine(), plan_set)
 
 	break
 

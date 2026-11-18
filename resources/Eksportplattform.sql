@@ -12,7 +12,7 @@ BEGIN TRY
 
     CREATE TABLE [dbo].[DicomTransfer] (
         [DicomTransferId] int IDENTITY(1,1) NOT NULL,
-        [PatientSer] nvarchar(max) NULL,
+        [PatientSer] int NULL,
         [SentDt] datetime2 NULL,
 
         CONSTRAINT [PK_DicomTransfer] PRIMARY KEY ([DicomTransferId])
@@ -20,15 +20,10 @@ BEGIN TRY
 
     CREATE TABLE [dbo].[RTPlan] (
         [RtPlanId] int IDENTITY(1,1) NOT NULL,
-        [DicomTransferId] int NULL,
-        [PlanSopUid] nvarchar(max) NULL,
+        [PlanSopUid] varchar(128) NULL,
         [PlanLabel] nvarchar(max) NULL,
-        [Apprec] nvarchar(max) NULL,
 
-        CONSTRAINT [PK_RTPlan] PRIMARY KEY ([RtPlanId]),
-        CONSTRAINT [FK_RTPlan_DicomTransfer]
-            FOREIGN KEY ([DicomTransferId])
-            REFERENCES [dbo].[DicomTransfer] ([DicomTransferId])
+        CONSTRAINT [PK_RTPlan] PRIMARY KEY ([RtPlanId])
     );
 
     CREATE TABLE [dbo].[DicomObject] (
@@ -38,6 +33,7 @@ BEGIN TRY
         [TypeUid] nvarchar(max) NULL,
         [Modality] varchar(8) NULL,
         [BytesStored] bigint NULL,
+        [DicomTransferId] int NULL,
         [TransferStatus] int NULL,
         [TransferMessage] nvarchar(max) NULL,
         [CreatedDt] datetime2 NULL,
@@ -48,6 +44,9 @@ BEGIN TRY
         CONSTRAINT [FK_DicomObject_RTPlan]
             FOREIGN KEY ([RtPlanId])
             REFERENCES [dbo].[RTPlan] ([RtPlanId]),
+        CONSTRAINT [FK_DicomObject_DicomTransfer]
+            FOREIGN KEY ([DicomTransferId])
+            REFERENCES [dbo].[DicomTransfer] ([DicomTransferId]),
         CONSTRAINT [CK_DicomObject_Modality]
             CHECK ([Modality] IN (
                 'RTDOSE',
@@ -63,10 +62,10 @@ BEGIN TRY
 
     CREATE TABLE [dbo].[NPRFile] (
         [FileId] int IDENTITY(1,1) NOT NULL,
-        [FileName] nvarchar(max) NULL,
-        [Bytes] bigint NULL,
-        [Md5Hash] nvarchar(max) NULL,
-        [DicomUid] nvarchar(max) NULL,
+        [FileName] varchar(260) NULL,
+        [Bytes] int NULL,
+        [Md5Hash] varchar(32) NULL,
+        [DicomUid] varchar(64) NULL,
         [SentDt] datetime2 NULL,
 
         CONSTRAINT [PK_NPRFile] PRIMARY KEY ([FileId])

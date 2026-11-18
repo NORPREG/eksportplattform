@@ -112,6 +112,11 @@ def _move_objects(plan_set, source, destination, target_engine=None):
 
 def c_store_krest(ds):
 	# This is for DICOM SR
+	
+	# conquest_krest = medfys2
+	# krest = OUS
+	# Should fix my naming :D
+
 	this_ae = AE(ae_title=config.conquest_krest.dicom.aet)
 	this_ae.add_requested_context(BasicTextSRStorage)
 
@@ -119,12 +124,12 @@ def c_store_krest(ds):
 
 	try:
 		assoc = this_ae.associate(
-			config.conquest_krest.dicom.server,
-			config.conquest_krest.dicom.port,
-			ae_title=config.conquest_krest.dicom.aet
+			config.krest.dicom.server,
+			config.krest.dicom.port,
+			ae_title=config.krest.dicom.aet
 		)
 		if not assoc.is_established:
-			return transfer_failure(f"Association to {config.conquest_krest.dicom.aet} failed")
+			return transfer_failure(f"Association to {config.krest.dicom.aet} failed")
 	except (RuntimeError, OSError) as exc:
 		return transfer_failure(f"NPR association failed: {exc}")
 

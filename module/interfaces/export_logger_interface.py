@@ -1,7 +1,7 @@
 import datetime
 from config import Config
 import json
-from sqlmodel import Session, create_engine, select
+from sqlmodel import Session, create_engine, select, exists
 
 config = Config()
 
@@ -9,6 +9,8 @@ from module.Dataclasses import export_logger_dataclass
 from module.Interfaces import conquest_db_interface
 from module.utils import tools
 from module.utils.dicom_status import transfer_failure
+
+DEBUG = True
 
 class SetEncoder(json.JSONEncoder):
     def default(self, obj):
@@ -77,56 +79,74 @@ class LogDatabase:
 		"""Add patient to the logger database from plan_set"""
 
 		# Add Course object
-		db_dicomtransfer = export_logger_dataclass.DicomTransfer(
+		db_dicom_transfer = export_logger_dataclass.DicomTransfer(
 			patient_ser = str(plan_sets.get("PatientSer")),
 			sent_dt = datetime.datetime.now()
 		)
 
-		for plan_uid, plan_set in plan_sets.get("PlanSet", {}).items():
-			db_plan_set = export_logger_dataclass.RTPlan(
-				plan_sop_uid = plan_uid,
-				plan_label = plan_set.get("RTPlanLabel")
-			)
-
-			for modality_c in export_logger_dataclass.Modality:
-				modality = modality_c.value
-				for item in plan_set.get(modality, []):
-					transfer_status, transfer_message = plan_set.get("TransferResults", {}).get(
-						(modality, item), (0, "No final transfer result recorded")
-					)
-					if modality == "CT":
-						type_uid = "SERIES_INSTANCE"
-					else:
-						type_uid = "SOP_INSTANCE"
-					bytes_stored = None
-					if transfer_status == 1:
-						if modality == "CT":
-							filenames = conquest_db_interface.get_series_filenames(item, conquest_aria_engine)
-						else:
-							filenames = conquest_db_interface.get_sop_filenames(item, conquest_aria_engine)
-						try:
-							if not filenames or any(filename is None for filename in filenames):
-								raise OSError("Transferred object has no local file")
-							bytes_stored = tools.get_bytes_stored(filenames)
-						except OSError as exc:
-							_, transfer_message = transfer_failure(
-								f"Transfer succeeded, but local file size is unavailable: {exc}"
-							)
-
-					db_dicom_object = export_logger_dataclass.DicomObject(
-						reference_uid = item,
-						type_uid = type_uid,
-						bytes_stored = bytes_stored,
-						modality = modality,
-						transfer_status = transfer_status,
-						transfer_message = transfer_message,
-					)
-
-					db_plan_set.dicom_objects.append(db_dicom_object)
-			db_dicomtransfer.rtplans.append(db_plan_set)
-
 		with Session(self.engine) as session:
-			session.add(db_dicomtransfer)
+			for plan_uid, plan_set in plan_sets.get("PlanSet", {}).items():
+
+				# First check for existing plan_set
+
+				statement = select(export_logger_dataclass.RTPlan) \
+					.where(export_logger_dataclass.RTPlan.plan_sop_uid == plan_uid)
+
+				db_plan_set = session.exec(statement).first()
+				if db_plan_set is None:
+					db_plan_set = export_logger_dataclass.RTPlan(
+						plan_sop_uid = plan_uid,
+						plan_label = plan_set.get("RTPlanLabel")
+					)
+					session.add(db_plan_set)
+
+				for modality_c in export_logger_dataclass.Modality:
+					modality = modality_c.value
+					for item in plan_set.get(modality, []):
+						transfer_status, transfer_message = plan_set.get("TransferResults", {}).get(
+							(modality, item), (0, "No final transfer result recorded")
+						)
+						if modality == "CT":
+							type_uid = "SERIES_INSTANCE"
+						else:
+							type_uid = "SOP_INSTANCE"
+						bytes_stored = None
+						if transfer_status == 1:
+							if modality == "CT":
+								filenames = conquest_db_interface.get_series_filenames(item, conquest_aria_engine)
+							else:
+								filenames = conquest_db_interface.get_sop_filenames(item, conquest_aria_engine)
+							try:
+								if not filenames or any(filename is None for filename in filenames):
+									raise OSError("Transferred object has no local file")
+								bytes_stored = tools.get_bytes_stored(filenames)
+							except OSError as exc:
+								_, transfer_message = transfer_failure(
+									f"Transfer succeeded, but local file size is unavailable: {exc}"
+								)
+
+						db_dicom_object = export_logger_dataclass.DicomObject(
+							reference_uid = item,
+							type_uid = type_uid,
+							bytes_stored = bytes_stored,
+							modality = modality,
+							transfer_status = transfer_status,
+							transfer_message = transfer_message,
+							dicom_transfer=db_dicom_transfer
+						)
+
+						db_plan_set.dicom_objects.append(db_dicom_object)
+
+			if DEBUG:
+				print("Adding the following to the logger database:")
+				print("PLANS---------------------")
+				print(db_plan_set)
+				print("\n\nDicomObject---------------------")
+				print(db_dicom_transfer)
+				print("\n\nDicomObject---------------------")
+				print(db_dicom_object)
+
+			session.add(db_dicom_transfer)
 			session.commit()
 
 	def get_rtplan_id(self, plan_sop_uid: str) -> int:

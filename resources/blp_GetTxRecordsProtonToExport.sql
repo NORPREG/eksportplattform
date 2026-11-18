@@ -6,7 +6,7 @@ as
 declare @fromdate date
  
 --If fromdate not given, get plans 6 month before
- 
+
 if (@FromDateTime is null) 
 	select @FromDateTime = dateadd(month, -6, getdate())
  

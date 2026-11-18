@@ -26,29 +26,31 @@ class DicomTransfer(SQLModel, table=True):
     __tablename__ = "DicomTransfer"
 
     dicom_transfer_id: int = Field(default=None, sa_column=Column("DicomTransferId", Integer, primary_key=True))
-    patient_ser: str = Field(sa_column=Column("PatientSer"))
+    patient_ser: int = Field(sa_column=Column("PatientSer"))
     sent_dt: datetime = Field(default_factory=datetime.now, sa_column=Column("SentDt", DATETIME2))
 
-    rtplans: list["RTPlan"] = Relationship(back_populates="dicom_transfer")
+    #rtplans: list["RTPlan"] = Relationship(back_populates="dicom_transfer")
+    dicom_objects: list["DicomObject"] = Relationship(
+        back_populates="dicom_transfer"
+    )
 
 
 class RTPlan(SQLModel, table=True):
     __tablename__ = "RTPlan"
 
     rtplan_id: int = Field(sa_column=Column("RtPlanId", Integer, primary_key=True))
-    dicom_transfer_id: int = Field(sa_column=Column("DicomTransferId", Integer, ForeignKey("DicomTransfer.DicomTransferId")))
+    # dicom_transfer_id: int = Field(sa_column=Column("DicomTransferId", Integer, ForeignKey("DicomTransfer.DicomTransferId")))
 
-    plan_sop_uid: str = Field(sa_column=Column("PlanSopUid"))
+    plan_sop_uid: str = Field(sa_column=Column("PlanSopUid", String(128)))
     plan_label: Optional[str] = Field(default=None, sa_column=Column("PlanLabel"))
-    apprec: Optional[str] = Field(default=None, sa_column=Column("Apprec"))
+    # apprec: Optional[str] = Field(default=None, sa_column=Column("Apprec"))
 
-    dicom_transfer: Optional[DicomTransfer] = Relationship(back_populates="rtplans")
+    #dicom_transfer: Optional[DicomTransfer] = Relationship(back_populates="rtplans")
     apprecs: list["Apprec"] = Relationship(back_populates="rtplan")
 
     dicom_objects: list["DicomObject"] = Relationship(
         back_populates="rtplan"
     )
-
 
 class DicomObject(SQLModel, table=True):
     __tablename__ = "DicomObject"
@@ -66,10 +68,13 @@ class DicomObject(SQLModel, table=True):
 
     bytes_stored: Optional[int] = Field(default=None, sa_column=Column("BytesStored"))
 
+    dicom_transfer_id: Optional[int] = Field(default=None, sa_column=Column("DicomTransferId", Integer, ForeignKey("DicomTransfer.DicomTransferId")))
     transfer_status: Optional[int] = Field(default=None, sa_column=Column("TransferStatus", Integer))
     transfer_message: Optional[str] = Field(default=None, sa_column=Column("TransferMessage"))
 
     created_dt: datetime = Field(default_factory=datetime.utcnow, sa_column=Column("CreatedDt", DATETIME2))
+
+    dicom_transfer: Optional[DicomTransfer] = Relationship(back_populates="dicom_objects")
 
     rtplan: Optional[RTPlan] = Relationship(
         back_populates="dicom_objects"
@@ -78,11 +83,11 @@ class DicomObject(SQLModel, table=True):
 class NPRFile(SQLModel, table=True):
     __tablename__ = "NPRFile"
 
-    file_id: Optional[int] = Field(sa_column=Column("FileId", Integer, primary_key=True))
-    file_name: Optional[str] = Field(default=None, sa_column=Column("FileName"))
-    bytes: Optional[int] = Field(default=None, sa_column=Column("Bytes"))
-    md5_hash: Optional[str] = Field(default=None, sa_column=Column("Md5Hash"))
-    dicom_uid: Optional[str] = Field(default=None, sa_column=Column("DicomUid"))
+    file_id: int = Field(sa_column=Column("FileId", Integer, primary_key=True))
+    file_name: str = Field(default=None, sa_column=Column("FileName", String(260)))
+    bytes: Optional[int] = Field(default=None, sa_column=Column("Bytes", Integer))
+    md5_hash: Optional[str] = Field(default=None, sa_column=Column("Md5Hash", String(32)))
+    dicom_uid: str = Field(default=None, sa_column=Column("DicomUid", String(64)))
     sent_dt: Optional[datetime] = Field(default=None, sa_column=Column("SentDt", DATETIME2))
 
 class Apprec(SQLModel, table=True):

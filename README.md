@@ -254,8 +254,11 @@ Endre `USE [ProtonRegister]` dersom databasen har et annet navn.
 Skriptet er for nyopprettelse, ikke migrering av eksisterende tabeller, og sletter
 ingen data. Opprettelsen kjøres i en transaksjon og rulles tilbake ved feil.
 Nullable-kolonner følger modellens eksplisitte SQLAlchemy-definisjoner;
-tidsstempler settes av applikasjonen. Tekst lagres som `nvarchar(max)` uten
-ekstra lengdebegrensninger, og filstørrelser lagres som `bigint`.
+tidsstempler settes av applikasjonen. `DicomObject` refererer direkte til både
+`DicomTransfer` og `RTPlan`; `RTPlan` har ikke lenger en egen overføringsnøkkel.
+Eksplisitte `String(n)`-felt bruker `varchar(n)`, og øvrige fritekstfelt bruker
+`nvarchar(max)`. `DicomObject.BytesStored` er `bigint`, mens `NPRFile.Bytes`
+er `int` i tråd med modellen.
 
 ## Applikasjonskonfigurasjon
 

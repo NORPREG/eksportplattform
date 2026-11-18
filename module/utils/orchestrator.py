@@ -10,6 +10,9 @@ from config import Config
 
 config = Config()
 
+DEBUG = True
+USE_RTRECORD = False
+
 from module.Dataclasses.conquest_dataclass import (
 	DICOMImages,
 	DICOMSeries,
@@ -49,24 +52,30 @@ def check_for_changes_and_errors(plan_set: dict) -> dict:
 	History may contain more objects than the current, partially populated extract.
 	Plan keys and labels are retained as context, not as objects to retransmit.
 	"""
-	patient_ser = str(plan_set["PatientSer"])
+	patient_ser = int(plan_set["PatientSer"])
 	plans = plan_set["PlanSet"]
+
+	if DEBUG:
+		print("plan_set = ")
+		pprint(plan_set)
 
 	transfer = export_logger_dataclass.DicomTransfer
 	rtplan = export_logger_dataclass.RTPlan
 	dicom_object = export_logger_dataclass.DicomObject
 
-	print("Identifying existing objects for patient_ser:", patient_ser)
+	if DEBUG:
+		print("Identifying existing objects for patient_ser:", patient_ser)
+
 	statement = (
 		select(
-			rtplan.plan_sop_uid,
 			dicom_object.modality,
 			dicom_object.type_uid,
 			dicom_object.reference_uid,
 			dicom_object.transfer_status,
+			rtplan.plan_sop_uid,
 		)
-		.join(transfer, rtplan.dicom_transfer_id == transfer.dicom_transfer_id)
-		.outerjoin(dicom_object, dicom_object.rtplan_id == rtplan.rtplan_id)
+		.join(transfer, dicom_object.dicom_transfer_id == transfer.dicom_transfer_id)
+		.join(rtplan, rtplan.rtplan_id == dicom_object.rtplan_id)
 		.where(
 			transfer.patient_ser == patient_ser,
 			transfer.sent_dt.is_not(None),
@@ -81,7 +90,9 @@ def check_for_changes_and_errors(plan_set: dict) -> dict:
 	with Session(log_database.engine) as session:
 		rows = session.exec(statement).all()
 
-	print(f"Found {len(rows)} existing objects")
+	if DEBUG:
+		print(f"Found {len(rows)} existing objects in Logger DB:")
+		pprint(rows)
 
 	latest_objects = {}
 	for plan_uid, modality, type_uid, reference_uid, status in rows:
@@ -113,6 +124,7 @@ def check_for_changes_and_errors(plan_set: dict) -> dict:
 				uid for logged_modality, logged_type, uid in failed_objects.get(plan_uid, set())
 				if logged_modality == modality.value and logged_type == type_uid
 			)
+
 		if any(changed_plan[modality.value] for modality in export_logger_dataclass.Modality):
 			changed_plan["TransferResults"] = {
 				(modality.value, uid): plan["TransferResults"][(modality.value, uid)]
@@ -122,7 +134,9 @@ def check_for_changes_and_errors(plan_set: dict) -> dict:
 			}
 			plan_set_changes["PlanSet"][plan_uid] = changed_plan
 
-	print(f"After removing existing objects, remaining plans: {len(plan_set_changes['PlanSet'])}")
+
+	if DEBUG:
+		print(f"After removing existing objects, remaining plans: {len(plan_set_changes['PlanSet'])}")
 
 	return plan_set_changes
 
@@ -134,6 +148,9 @@ def move_patient_to_conquest(plan_set):
 			for uid in plan.get(modality.value, []):
 				results[(modality.value, uid)] = failure
 
+	if DEBUG:
+		print("Looping over PlanSet with ", len(plan_set["PlanSet"]), " plans.")
+
 	for plan_sop_uid in plan_set["PlanSet"]:
 		plan_root = plan_set["PlanSet"][plan_sop_uid]
 		results = plan_root.setdefault("TransferResults", {})
@@ -144,6 +161,9 @@ def move_patient_to_conquest(plan_set):
 			uids.append(dose_uid)
 
 		uids_exist = { uid: conquest_db_interface.check_exists_sop(uid) for uid in uids}
+
+		if DEBUG: 
+			print("Transmit RT dose from Aria")
 
 		local_results = tools.transmit_rt_plan_dose(uids_exist)
 		for uid in plan_root["RTPLAN"]:
@@ -158,6 +178,8 @@ def move_patient_to_conquest(plan_set):
 			continue
 
 		# Find the structure set UIDs + plan labels from the RT Plan file
+		if DEBUG: 
+			print("Transmit RT struct from Aria")
 		try:
 			structure_set_uids, plan_label = conquest_db_interface.get_rt_struct_uid(plan_sop_uid)
 			if not structure_set_uids:
@@ -167,9 +189,13 @@ def move_patient_to_conquest(plan_set):
 			continue
 
 		# Download the associated RTRECORD files
-		rtrecord_uids = plan_root.get("RTRECORD", set())
-		for uid, result in tools.transmit_rt_record(rtrecord_uids).items():
-			results[("RTRECORD", uid)] = result
+
+		if USE_RTRECORD:
+			if DEBUG: 
+				print("Transmit RT Record from Aria")
+			rtrecord_uids = plan_root.get("RTRECORD", set())
+			for uid, result in tools.transmit_rt_record(rtrecord_uids).items():
+				results[("RTRECORD", uid)] = result
 
 		plan_root["RTPlanLabel"] = plan_label
 		plan_root["RTSTRUCT"].update(structure_set_uids)
@@ -178,6 +204,8 @@ def move_patient_to_conquest(plan_set):
 			results[("RTSTRUCT", uid)] = result
         
 		# Download the associated CT
+		if DEBUG: 
+			print("Find CT from Aria")
 		failed_reference = False
 		for instance_uid in plan_root["RTSTRUCT"]:
 			if not structure_results[instance_uid][0]:
@@ -199,6 +227,9 @@ def move_patient_to_conquest(plan_set):
 			for uid in plan_root["CT"]:
 				results[("CT", uid)] = failure
 		else:
+			if DEBUG: 
+				print("Find CT from Aria")
+
 			for uid, result in tools.transmit_ct_series(plan_root).items():
 				results[("CT", uid)] = result
 
@@ -369,8 +400,10 @@ def find_all_npr_files() -> list[str]:
 		return npr_files
 
 	if config.npr.structure == "YEAR":
-		for year_folder in glob(f"{config.npr.root_dir}/*"):
+		for year_folder in glob(f"{config.npr.root_dir}"):
+			print(f"{year_folder = }")
 			for file in glob(f"{year_folder}/*.{config.npr.file_extension}"):
+				print(f"{file = }")
 				npr_files.append(file)
 
 	elif config.npr.structure == "FLAT":
@@ -381,14 +414,17 @@ def find_all_npr_files() -> list[str]:
 
 def process_npr():
 	all_available_npr_files = find_all_npr_files()
-	print(f"Found the following NPR files: {all_available_npr_files}")
+	
+	if DEBUG:
+		print(f"Found the following NPR files: {all_available_npr_files}")
 	
 	for npr_file in all_available_npr_files:
 		if log_database.check_if_npr_file_is_sent(npr_file):
 			print(f"NPR file already sent: {npr_file}")
 			continue
 
-		print(f"Processing NPR file: {npr_file}")
+		if DEBUG:
+			print(f"Processing NPR file: {npr_file}")
 		dicom_uid = send_npr_file_to_krest(npr_file)
 		if dicom_uid is None:
 			print(f"Failed to process NPR file (no dicom_uid): {npr_file}")
